@@ -1,0 +1,593 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - 7ecfd00f56917760beef377e49fab67d9a3967dc - Time/TimeSteppers/AdamsBashforthN.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title"> SpECTRE Documentation Coverage Report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">Time/TimeSteppers</a> - AdamsBashforthN.hpp</td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+             <td class="headerItem">Commit:</td>
+             <td class="headerValue"><a target="_blank" href="https://github.com/sxs-collaboration/spectre/commit/7ecfd00f56917760beef377e49fab67d9a3967dc">7ecfd00f56917760beef377e49fab67d9a3967dc</a></td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">42</td>
+            <td class="headerCovTableEntryLo">9.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2018-04-30 17:40:54</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<span class="lineNum">       1 </span>            : // Distributed under the MIT License.
+<span class="lineNum">       2 </span>            : // See LICENSE.txt for details.
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : /// \file
+<span class="lineNum">       5 </span>            : /// Defines class AdamsBashforthN
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : #pragma once
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : #include &lt;algorithm&gt;
+<span class="lineNum">      10 </span>            : #include &lt;boost/iterator/transform_iterator.hpp&gt;
+<span class="lineNum">      11 </span>            : #include &lt;cstddef&gt;
+<span class="lineNum">      12 </span>            : #include &lt;iterator&gt;
+<span class="lineNum">      13 </span>            : #include &lt;map&gt;
+<span class="lineNum">      14 </span>            : #include &lt;ostream&gt;
+<span class="lineNum">      15 </span>            : #include &lt;pup.h&gt;
+<span class="lineNum">      16 </span>            : #include &lt;set&gt;
+<span class="lineNum">      17 </span>            : #include &lt;type_traits&gt;
+<span class="lineNum">      18 </span>            : #include &lt;vector&gt;
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : #include &quot;ErrorHandling/Assert.hpp&quot;
+<span class="lineNum">      21 </span>            : #include &quot;ErrorHandling/Error.hpp&quot;
+<span class="lineNum">      22 </span>            : #include &quot;NumericalAlgorithms/Interpolation/LagrangePolynomial.hpp&quot;
+<span class="lineNum">      23 </span>            : #include &quot;Options/Options.hpp&quot;
+<span class="lineNum">      24 </span>            : #include &quot;Parallel/CharmPupable.hpp&quot;
+<span class="lineNum">      25 </span>            : #include &quot;Time/BoundaryHistory.hpp&quot;  // IWYU pragma: keep
+<span class="lineNum">      26 </span>            : #include &quot;Time/History.hpp&quot;          // IWYU pragma: keep
+<span class="lineNum">      27 </span>            : #include &quot;Time/Time.hpp&quot;
+<span class="lineNum">      28 </span>            : #include &quot;Time/TimeSteppers/TimeStepper.hpp&quot;  // IWYU pragma: keep
+<span class="lineNum">      29 </span>            : #include &quot;Utilities/CachedFunction.hpp&quot;
+<span class="lineNum">      30 </span>            : #include &quot;Utilities/ConstantExpressions.hpp&quot;
+<span class="lineNum">      31 </span>            : #include &quot;Utilities/Gsl.hpp&quot;
+<span class="lineNum">      32 </span>            : #include &quot;Utilities/MakeWithValue.hpp&quot;
+<span class="lineNum">      33 </span>            : #include &quot;Utilities/TMPL.hpp&quot;
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : /// \cond
+<span class="lineNum">      36 </span>            : struct TimeId;
+<span class="lineNum">      37 </span>            : /// \endcond
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            : // IWYU pragma: no_include &lt;sys/types.h&gt;
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span>            : namespace TimeSteppers {
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            : /// \ingroup TimeSteppersGroup
+<span class="lineNum">      44 </span>            : ///
+<span class="lineNum">      45 </span>            : /// An Nth Adams-Bashforth time stepper.
+<span class="lineNum">      46 </span><span class="lineCov">          1 : class AdamsBashforthN : public TimeStepper::Inherit {</span>
+<span class="lineNum">      47 </span>            :  public:
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :   static constexpr const size_t maximum_order = 8;</span>
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :   struct TargetOrder {</span>
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     using type = size_t;</span>
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :     static constexpr OptionString help = {</span>
+<span class="lineNum">      53 </span>            :         &quot;Target order of Adams-Bashforth method.&quot;};
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :     static type lower_bound() { return 1; }</span>
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :     static type upper_bound() { return maximum_order; }</span>
+<span class="lineNum">      56 </span>            :   };
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :   struct SelfStart {</span>
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     using type = bool;</span>
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :     static constexpr OptionString help = {</span>
+<span class="lineNum">      60 </span>            :         &quot;Start at first order and increase.&quot;};
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :     static type default_value() { return false; }</span>
+<span class="lineNum">      62 </span>            :   };
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :   using options = tmpl::list&lt;TargetOrder, SelfStart&gt;;</span>
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :   static constexpr OptionString help = {</span>
+<span class="lineNum">      65 </span>            :       &quot;An Adams-Bashforth Nth order time-stepper. The target order is the\n&quot;
+<span class="lineNum">      66 </span>            :       &quot;order of the method. If a self-starting approach is chosen then the\n&quot;
+<span class="lineNum">      67 </span>            :       &quot;method starts at first order and increases the step-size until the\n&quot;
+<span class="lineNum">      68 </span>            :       &quot;desired order is reached.&quot;};
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :   AdamsBashforthN() = default;</span>
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :   AdamsBashforthN(size_t target_order, bool self_start,</span>
+<span class="lineNum">      72 </span>            :                   const OptionContext&amp; context = {});
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :   AdamsBashforthN(const AdamsBashforthN&amp;) noexcept = default;</span>
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :   AdamsBashforthN&amp; operator=(const AdamsBashforthN&amp;) noexcept = default;</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :   AdamsBashforthN(AdamsBashforthN&amp;&amp;) noexcept = default;</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :   AdamsBashforthN&amp; operator=(AdamsBashforthN&amp;&amp;) noexcept = default;</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :   ~AdamsBashforthN() noexcept override = default;</span>
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span>            :   template &lt;typename Vars, typename DerivVars&gt;
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :   void update_u(gsl::not_null&lt;Vars*&gt; u,</span>
+<span class="lineNum">      81 </span>            :                 gsl::not_null&lt;History&lt;Vars, DerivVars&gt;*&gt; history,
+<span class="lineNum">      82 </span>            :                 const TimeDelta&amp; time_step) const noexcept;
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            :   /*!
+<span class="lineNum">      85 </span>            :    * An explanation of the computation being performed by this
+<span class="lineNum">      86 </span>            :    * function:
+<span class="lineNum">      87 </span>            :    * \f$\newcommand\tL{t^L}\newcommand\tR{t^R}\newcommand\tU{\tilde{t}}
+<span class="lineNum">      88 </span>            :    * \newcommand\mat{\mathbf}\newcommand\of[1]{\!\!\left(#1\right)}\f$
+<span class="lineNum">      89 </span>            :    *
+<span class="lineNum">      90 </span>            :    * Suppose the local and remote sides of the interface are evaluated
+<span class="lineNum">      91 </span>            :    * at times \f$\ldots, \tL_{-1}, \tL_0, \tL_1, \ldots\f$ and
+<span class="lineNum">      92 </span>            :    * \f$\ldots, \tR_{-1}, \tR_0, \tR_1, \ldots\f$, respectively, with
+<span class="lineNum">      93 </span>            :    * the starting location of the numbering arbitrary in each case.
+<span class="lineNum">      94 </span>            :    * Let the step we wish to calculate the effect of be the step from
+<span class="lineNum">      95 </span>            :    * \f$\tL_{m_S}\f$ to \f$\tL_{m_S+1}\f$.
+<span class="lineNum">      96 </span>            :    *
+<span class="lineNum">      97 </span>            :    * We call the sequence produced from the union of the local and
+<span class="lineNum">      98 </span>            :    * remote time sequences \f$\ldots, \tU_{-1}, \tU_0, \tU_1,
+<span class="lineNum">      99 </span>            :    * \ldots\f$, where for convenience we choose the numbering such
+<span class="lineNum">     100 </span>            :    * that \f$\tU_n = \tR_n\f$ for times between \f$\tL_{m_S}\f$ and
+<span class="lineNum">     101 </span>            :    * \f$\tL_{m_S+1}\f$.  (If there are no such times, give the union
+<span class="lineNum">     102 </span>            :    * time matching \f$\tL_{m_S}\f$ the number of the last remote time
+<span class="lineNum">     103 </span>            :    * not later than \f$\tL_{m_S}\f$).  For example, one possible
+<span class="lineNum">     104 </span>            :    * sequence of times is:
+<span class="lineNum">     105 </span>            :    * \f{equation}
+<span class="lineNum">     106 </span>            :    *   \begin{aligned}
+<span class="lineNum">     107 </span>            :    *     \text{Local side:} \\ \text{Union times:} \\ \text{Remote side:}
+<span class="lineNum">     108 </span>            :    *   \end{aligned}
+<span class="lineNum">     109 </span>            :    *   \cdots
+<span class="lineNum">     110 </span>            :    *   \begin{gathered}
+<span class="lineNum">     111 </span>            :    *     \, \\ \tU_1 \\ \tR_2
+<span class="lineNum">     112 </span>            :    *   \end{gathered}
+<span class="lineNum">     113 </span>            :    *   \leftarrow \Delta \tU_1 \rightarrow
+<span class="lineNum">     114 </span>            :    *   \begin{gathered}
+<span class="lineNum">     115 </span>            :    *     \tL_4 \\ \tU_2 \\ \,
+<span class="lineNum">     116 </span>            :    *   \end{gathered}
+<span class="lineNum">     117 </span>            :    *   \leftarrow \Delta \tU_2 \rightarrow
+<span class="lineNum">     118 </span>            :    *   \begin{gathered}
+<span class="lineNum">     119 </span>            :    *     \, \\ \tU_3 \\ \tR_3
+<span class="lineNum">     120 </span>            :    *   \end{gathered}
+<span class="lineNum">     121 </span>            :    *   \leftarrow \Delta \tU_3 \rightarrow
+<span class="lineNum">     122 </span>            :    *   \begin{gathered}
+<span class="lineNum">     123 </span>            :    *    \, \\ \tU_4 \\ \tR_4
+<span class="lineNum">     124 </span>            :    *   \end{gathered}
+<span class="lineNum">     125 </span>            :    *   \leftarrow \Delta \tU_4 \rightarrow
+<span class="lineNum">     126 </span>            :    *   \begin{gathered}
+<span class="lineNum">     127 </span>            :    *     \tL_5 \\ \tU_5 \\ \,
+<span class="lineNum">     128 </span>            :    *   \end{gathered}
+<span class="lineNum">     129 </span>            :    *   \cdots
+<span class="lineNum">     130 </span>            :    * \f}
+<span class="lineNum">     131 </span>            :    * We call the indices of the step's start and end times in the
+<span class="lineNum">     132 </span>            :    * union time sequence \f$n_S\f$ and \f$n_E\f$, respectively, so for
+<span class="lineNum">     133 </span>            :    * the above example, if we wish to compute the step from
+<span class="lineNum">     134 </span>            :    * \f$\tL_4\f$ to \f$\tL_5\f$, we would have \f$m_S = 4\f$, \f$n_S =
+<span class="lineNum">     135 </span>            :    * 2\f$, and \f$n_E = 5\f$.
+<span class="lineNum">     136 </span>            :    *
+<span class="lineNum">     137 </span>            :    * Let \f$k\f$ be the order of the integrator.  For the sequences of
+<span class="lineNum">     138 </span>            :    * evaluation times ending with \f$\tL_{j_L}\f$ and \f$\tR_{j_R}\f$,
+<span class="lineNum">     139 </span>            :    * we can write the cardinal functions on those times as
+<span class="lineNum">     140 </span>            :    * \f{equation}{
+<span class="lineNum">     141 </span>            :    *   C_{a_L, a_R}(t_L, t_R; j_L, j_R) =
+<span class="lineNum">     142 </span>            :    *   \ell_{a_L}\of{t_L; \tL_{j_L - (k-1)}, \ldots, \tL_{j_L}}
+<span class="lineNum">     143 </span>            :    *   \ell_{a_R}\of{t_R; \tR_{j_R - (k-1)}, \ldots, \tR_{j_R}},
+<span class="lineNum">     144 </span>            :    * \f}
+<span class="lineNum">     145 </span>            :    * with \f$\ell_a(t; x_1, \ldots, x_k)\f$ the Lagrange interpolating
+<span class="lineNum">     146 </span>            :    * polynomials with \f$a\f$ running from \f$1\f$ to \f$k\f$.  The
+<span class="lineNum">     147 </span>            :    * cardinal function satisfies \f$ C_{a_L, a_R}(\tL_{i_L},
+<span class="lineNum">     148 </span>            :    * \tR_{i_R}; j_L, j_R) = \delta_{i_L, j_L + a_L - k} \delta_{i_R,
+<span class="lineNum">     149 </span>            :    * j_R + a_R - k} \f$.  We write the integral of a cardinal function
+<span class="lineNum">     150 </span>            :    * using an Adams-Bashforth step based on the union times along the
+<span class="lineNum">     151 </span>            :    * diagonal \f$\tL = \tR\f$ from \f$\tU_n\f$ to \f$\tU_{n+1}\f$ as
+<span class="lineNum">     152 </span>            :    * \f{equation}{
+<span class="lineNum">     153 </span>            :    *   I_{n,q^L,q^R} =
+<span class="lineNum">     154 </span>            :    *   \Delta \tU_n
+<span class="lineNum">     155 </span>            :    *   \sum_{j = 0}^{k-1}
+<span class="lineNum">     156 </span>            :    *   \tilde{\alpha}_{nj}
+<span class="lineNum">     157 </span>            :    *   C_{k-(m_S-q^L), k-(n-q^R)}\of{\tU_{n-j}, \tU_{n-j}; m_S, n},
+<span class="lineNum">     158 </span>            :    * \f}
+<span class="lineNum">     159 </span>            :    * where \f$\tilde{\alpha}_{nj}\f$ are the Adams-Bashforth
+<span class="lineNum">     160 </span>            :    * coefficients derived from the union times.  The boundary delta
+<span class="lineNum">     161 </span>            :    * for the step is then
+<span class="lineNum">     162 </span>            :    * \f{equation}
+<span class="lineNum">     163 </span>            :    *   \mat{F}_{m_S} =
+<span class="lineNum">     164 </span>            :    *   \mspace{-7mu}
+<span class="lineNum">     165 </span>            :    *   \sum_{q^L = m_S-(k-1)}^{m_S}
+<span class="lineNum">     166 </span>            :    *   \sum_{q^R = n_S-(k-1)}^{n_E-1}
+<span class="lineNum">     167 </span>            :    *   \mspace{-4mu}
+<span class="lineNum">     168 </span>            :    *   \mat{D}_{q^L,q^R}
+<span class="lineNum">     169 </span>            :    *   \sum_{n = \max\left\{n_S, q^R \right\}
+<span class="lineNum">     170 </span>            :    *   }^{\min\left\{n_E, q^R + k \right\} - 1}
+<span class="lineNum">     171 </span>            :    *   I_{n,q^L,q^R}
+<span class="lineNum">     172 </span>            :    * \f}
+<span class="lineNum">     173 </span>            :    * where \f$\mat{D}_{q^L,q^R}\f$ is the coupling function evaluated
+<span class="lineNum">     174 </span>            :    * at the indicated side values.
+<span class="lineNum">     175 </span>            :    */
+<span class="lineNum">     176 </span>            :   template &lt;typename LocalVars, typename RemoteVars, typename Coupling&gt;
+<span class="lineNum">     177 </span>            :   std::result_of_t&lt;const Coupling&amp;(LocalVars, RemoteVars)&gt;
+<span class="lineNum">     178 </span><span class="lineCov">          1 :   compute_boundary_delta(</span>
+<span class="lineNum">     179 </span>            :       const Coupling&amp; coupling,
+<span class="lineNum">     180 </span>            :       gsl::not_null&lt;BoundaryHistory&lt;
+<span class="lineNum">     181 </span>            :           LocalVars, RemoteVars,
+<span class="lineNum">     182 </span>            :           std::result_of_t&lt;const Coupling&amp;(LocalVars, RemoteVars)&gt;&gt;*&gt;
+<span class="lineNum">     183 </span>            :           history,
+<span class="lineNum">     184 </span>            :       const TimeDelta&amp; time_step) const noexcept;
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span><span class="lineNoCov">          0 :   size_t number_of_substeps() const noexcept override;</span>
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 :   size_t number_of_past_steps() const noexcept override;</span>
+<span class="lineNum">     189 </span>            : 
+<span class="lineNum">     190 </span><span class="lineNoCov">          0 :   bool is_self_starting() const noexcept override;</span>
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :   double stable_step() const noexcept override;</span>
+<span class="lineNum">     193 </span>            : 
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 :   TimeId next_time_id(const TimeId&amp; current_id,</span>
+<span class="lineNum">     195 </span>            :                       const TimeDelta&amp; time_step) const noexcept override;
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :   WRAPPED_PUPable_decl_template(AdamsBashforthN);  // NOLINT</span>
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span><span class="lineNoCov">          0 :   explicit AdamsBashforthN(CkMigrateMessage* /*unused*/) noexcept {}</span>
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span>            :   // clang-tidy: do not pass by non-const reference
+<span class="lineNum">     202 </span><span class="lineNoCov">          0 :   void pup(PUP::er&amp; p) noexcept override;  // NOLINT</span>
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span>            :  private:
+<span class="lineNum">     205 </span>            :   friend bool operator==(const AdamsBashforthN&amp; lhs,
+<span class="lineNum">     206 </span>            :                          const AdamsBashforthN&amp; rhs) noexcept;
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span>            :   /// Get coefficients for a time step.  Arguments are an iterator
+<span class="lineNum">     209 </span>            :   /// pair to past times, oldest to newest, and the time step to take.
+<span class="lineNum">     210 </span>            :   template &lt;typename Iterator&gt;
+<span class="lineNum">     211 </span><span class="lineCov">          1 :   static std::vector&lt;double&gt; get_coefficients(const Iterator&amp; times_begin,</span>
+<span class="lineNum">     212 </span>            :                                               const Iterator&amp; times_end,
+<span class="lineNum">     213 </span>            :                                               const TimeDelta&amp; step) noexcept;
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :   static std::vector&lt;double&gt; get_coefficients_impl(</span>
+<span class="lineNum">     216 </span>            :       const std::vector&lt;double&gt;&amp; steps) noexcept;
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span><span class="lineNoCov">          0 :   static std::vector&lt;double&gt; variable_coefficients(</span>
+<span class="lineNum">     219 </span>            :       const std::vector&lt;double&gt;&amp; steps) noexcept;
+<span class="lineNum">     220 </span>            : 
+<span class="lineNum">     221 </span><span class="lineNoCov">          0 :   static std::vector&lt;double&gt; constant_coefficients(size_t order) noexcept;</span>
+<span class="lineNum">     222 </span>            : 
+<span class="lineNum">     223 </span>            :   /// Comparator for ordering by &quot;simulation time&quot;
+<span class="lineNum">     224 </span><span class="lineCov">          1 :   class SimulationLess {</span>
+<span class="lineNum">     225 </span>            :    public:
+<span class="lineNum">     226 </span><span class="lineNoCov">          0 :     explicit SimulationLess(const bool forward_in_time) noexcept</span>
+<span class="lineNum">     227 </span>            :         : forward_in_time_(forward_in_time) {}
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :     bool operator()(const Time&amp; a, const Time&amp; b) const noexcept {</span>
+<span class="lineNum">     230 </span>            :       return forward_in_time_ ? a &lt; b : b &lt; a;
+<span class="lineNum">     231 </span>            :     }
+<span class="lineNum">     232 </span>            : 
+<span class="lineNum">     233 </span>            :    private:
+<span class="lineNum">     234 </span><span class="lineNoCov">          0 :     bool forward_in_time_;</span>
+<span class="lineNum">     235 </span>            :   };
+<span class="lineNum">     236 </span>            : 
+<span class="lineNum">     237 </span><span class="lineNoCov">          0 :   size_t target_order_ = 3;</span>
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :   bool is_self_starting_ = true;</span>
+<span class="lineNum">     239 </span>            : };
+<span class="lineNum">     240 </span>            : 
+<span class="lineNum">     241 </span>            : bool operator!=(const AdamsBashforthN&amp; lhs,
+<span class="lineNum">     242 </span>            :                 const AdamsBashforthN&amp; rhs) noexcept;
+<span class="lineNum">     243 </span>            : 
+<span class="lineNum">     244 </span>            : template &lt;typename Vars, typename DerivVars&gt;
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 : void AdamsBashforthN::update_u(</span>
+<span class="lineNum">     246 </span>            :     const gsl::not_null&lt;Vars*&gt; u,
+<span class="lineNum">     247 </span>            :     const gsl::not_null&lt;History&lt;Vars, DerivVars&gt;*&gt; history,
+<span class="lineNum">     248 </span>            :     const TimeDelta&amp; time_step) const noexcept {
+<span class="lineNum">     249 </span>            :   ASSERT(is_self_starting_ or target_order_ == history-&gt;size(),
+<span class="lineNum">     250 </span>            :          &quot;Length of history should be the order, so &quot;
+<span class="lineNum">     251 </span>            :          &lt;&lt; target_order_ &lt;&lt; &quot;, but is: &quot; &lt;&lt; history-&gt;size());
+<span class="lineNum">     252 </span>            :   ASSERT(history-&gt;size() &lt;= target_order_,
+<span class="lineNum">     253 </span>            :          &quot;Length of history (&quot; &lt;&lt; history-&gt;size() &lt;&lt; &quot;) &quot;
+<span class="lineNum">     254 </span>            :          &lt;&lt; &quot;should not exceed target order (&quot; &lt;&lt; target_order_ &lt;&lt; &quot;)&quot;);
+<span class="lineNum">     255 </span>            : 
+<span class="lineNum">     256 </span>            :   const auto&amp; coefficients =
+<span class="lineNum">     257 </span>            :       get_coefficients(history-&gt;begin(), history-&gt;end(), time_step);
+<span class="lineNum">     258 </span>            : 
+<span class="lineNum">     259 </span>            :   const auto do_update =
+<span class="lineNum">     260 </span>            :       [u, &amp;time_step, &amp;coefficients, &amp;history](auto order) noexcept {
+<span class="lineNum">     261 </span>            :     *u += time_step.value() * constexpr_sum&lt;order&gt;(
+<span class="lineNum">     262 </span>            :         [order, &amp;coefficients, &amp;history](auto i) noexcept {
+<span class="lineNum">     263 </span>            :           return coefficients[order - 1 - i] *
+<span class="lineNum">     264 </span>            :               (history-&gt;begin() + static_cast&lt;ssize_t&gt;(i)).derivative();
+<span class="lineNum">     265 </span>            :         });
+<span class="lineNum">     266 </span>            :   };
+<span class="lineNum">     267 </span>            : 
+<span class="lineNum">     268 </span>            :   switch (history-&gt;size()) {
+<span class="lineNum">     269 </span>            :     case 1:
+<span class="lineNum">     270 </span>            :       do_update(std::integral_constant&lt;size_t, 1&gt;{});
+<span class="lineNum">     271 </span>            :       break;
+<span class="lineNum">     272 </span>            :     case 2:
+<span class="lineNum">     273 </span>            :       do_update(std::integral_constant&lt;size_t, 2&gt;{});
+<span class="lineNum">     274 </span>            :       break;
+<span class="lineNum">     275 </span>            :     case 3:
+<span class="lineNum">     276 </span>            :       do_update(std::integral_constant&lt;size_t, 3&gt;{});
+<span class="lineNum">     277 </span>            :       break;
+<span class="lineNum">     278 </span>            :     case 4:
+<span class="lineNum">     279 </span>            :       do_update(std::integral_constant&lt;size_t, 4&gt;{});
+<span class="lineNum">     280 </span>            :       break;
+<span class="lineNum">     281 </span>            :     case 5:
+<span class="lineNum">     282 </span>            :       do_update(std::integral_constant&lt;size_t, 5&gt;{});
+<span class="lineNum">     283 </span>            :       break;
+<span class="lineNum">     284 </span>            :     case 6:
+<span class="lineNum">     285 </span>            :       do_update(std::integral_constant&lt;size_t, 6&gt;{});
+<span class="lineNum">     286 </span>            :       break;
+<span class="lineNum">     287 </span>            :     case 7:
+<span class="lineNum">     288 </span>            :       do_update(std::integral_constant&lt;size_t, 7&gt;{});
+<span class="lineNum">     289 </span>            :       break;
+<span class="lineNum">     290 </span>            :     case 8:
+<span class="lineNum">     291 </span>            :       do_update(std::integral_constant&lt;size_t, 8&gt;{});
+<span class="lineNum">     292 </span>            :       break;
+<span class="lineNum">     293 </span>            :     default:
+<span class="lineNum">     294 </span>            :       ERROR(&quot;Bad amount of history data: &quot; &lt;&lt; history-&gt;size());
+<span class="lineNum">     295 </span>            :   }
+<span class="lineNum">     296 </span>            : 
+<span class="lineNum">     297 </span>            :   // Clean up old history
+<span class="lineNum">     298 </span>            :   if (history-&gt;size() &gt;= target_order_) {
+<span class="lineNum">     299 </span>            :     history-&gt;mark_unneeded(
+<span class="lineNum">     300 </span>            :         history-&gt;end() - static_cast&lt;ssize_t&gt;(target_order_ - 1));
+<span class="lineNum">     301 </span>            :   }
+<span class="lineNum">     302 </span>            : }
+<span class="lineNum">     303 </span>            : 
+<span class="lineNum">     304 </span>            : template &lt;typename LocalVars, typename RemoteVars, typename Coupling&gt;
+<span class="lineNum">     305 </span>            : std::result_of_t&lt;const Coupling&amp;(LocalVars, RemoteVars)&gt;
+<span class="lineNum">     306 </span><span class="lineNoCov">          0 : AdamsBashforthN::compute_boundary_delta(</span>
+<span class="lineNum">     307 </span>            :     const Coupling&amp; coupling,
+<span class="lineNum">     308 </span>            :     const gsl::not_null&lt;BoundaryHistory&lt;
+<span class="lineNum">     309 </span>            :         LocalVars, RemoteVars,
+<span class="lineNum">     310 </span>            :         std::result_of_t&lt;const Coupling&amp;(LocalVars, RemoteVars)&gt;&gt;*&gt;
+<span class="lineNum">     311 </span>            :         history,
+<span class="lineNum">     312 </span>            :     const TimeDelta&amp; time_step) const noexcept {
+<span class="lineNum">     313 </span>            :   ASSERT(not is_self_starting_, &quot;Unimplemented&quot;);
+<span class="lineNum">     314 </span>            : 
+<span class="lineNum">     315 </span>            :   // Avoid billions of casts
+<span class="lineNum">     316 </span>            :   const auto target_order_s = static_cast&lt;ssize_t&gt;(target_order_);
+<span class="lineNum">     317 </span>            : 
+<span class="lineNum">     318 </span>            :   const SimulationLess simulation_less(time_step.is_positive());
+<span class="lineNum">     319 </span>            : 
+<span class="lineNum">     320 </span>            :   // Evaluate the cardinal function for a grid of points at a point on
+<span class="lineNum">     321 </span>            :   // the diagonal.
+<span class="lineNum">     322 </span>            :   const auto grid_cardinal_function =
+<span class="lineNum">     323 </span>            :       [target_order_s, &amp;history](const double evaluation_time,
+<span class="lineNum">     324 </span>            :                                  const auto&amp; local_index,
+<span class="lineNum">     325 </span>            :                                  const auto&amp; remote_index,
+<span class="lineNum">     326 </span>            :                                  const auto&amp; remote_times_start) noexcept {
+<span class="lineNum">     327 </span>            :     // Makes an iterator with a map to give time as a double.
+<span class="lineNum">     328 </span>            :     const auto make_lagrange_iterator = [](const auto&amp; it) noexcept {
+<span class="lineNum">     329 </span>            :       return boost::make_transform_iterator(
+<span class="lineNum">     330 </span>            :           it, [](const Time&amp; t) noexcept {
+<span class="lineNum">     331 </span>            :             return t.value();
+<span class="lineNum">     332 </span>            :           });
+<span class="lineNum">     333 </span>            :     };
+<span class="lineNum">     334 </span>            : 
+<span class="lineNum">     335 </span>            :     return lagrange_polynomial(
+<span class="lineNum">     336 </span>            :         make_lagrange_iterator(local_index),
+<span class="lineNum">     337 </span>            :         evaluation_time,
+<span class="lineNum">     338 </span>            :         make_lagrange_iterator(history-&gt;local_begin()),
+<span class="lineNum">     339 </span>            :         make_lagrange_iterator(history-&gt;local_end())) *
+<span class="lineNum">     340 </span>            :     lagrange_polynomial(
+<span class="lineNum">     341 </span>            :         make_lagrange_iterator(remote_index),
+<span class="lineNum">     342 </span>            :         evaluation_time,
+<span class="lineNum">     343 </span>            :         make_lagrange_iterator(remote_times_start),
+<span class="lineNum">     344 </span>            :         make_lagrange_iterator(remote_times_start + target_order_s));
+<span class="lineNum">     345 </span>            :   };
+<span class="lineNum">     346 </span>            : 
+<span class="lineNum">     347 </span>            :   ASSERT(history-&gt;local_size() == target_order_,
+<span class="lineNum">     348 </span>            :          &quot;Local history has wrong length (&quot; &lt;&lt; history-&gt;local_size()
+<span class="lineNum">     349 </span>            :          &lt;&lt; &quot; should be &quot; &lt;&lt; target_order_s &lt;&lt; &quot;)&quot;);
+<span class="lineNum">     350 </span>            :   ASSERT(std::is_sorted(history-&gt;local_begin(), history-&gt;local_end(),
+<span class="lineNum">     351 </span>            :                         simulation_less),
+<span class="lineNum">     352 </span>            :          &quot;Local history not in order&quot;);
+<span class="lineNum">     353 </span>            :   ASSERT(std::is_sorted(history-&gt;remote_begin(), history-&gt;remote_end(),
+<span class="lineNum">     354 </span>            :                         simulation_less),
+<span class="lineNum">     355 </span>            :          &quot;Remote history not in order&quot;);
+<span class="lineNum">     356 </span>            : 
+<span class="lineNum">     357 </span>            :   // Start and end of the step we are trying to take
+<span class="lineNum">     358 </span>            :   const Time start_time = *(history-&gt;local_end() - 1);
+<span class="lineNum">     359 </span>            :   const Time end_time = start_time + time_step;
+<span class="lineNum">     360 </span>            : 
+<span class="lineNum">     361 </span>            :   ASSERT(simulation_less(*(history-&gt;remote_end() - 1), end_time),
+<span class="lineNum">     362 </span>            :          &quot;Please supply only older data: &quot; &lt;&lt; *(history-&gt;remote_end() - 1)
+<span class="lineNum">     363 </span>            :          &lt;&lt; &quot; is not before &quot; &lt;&lt; end_time);
+<span class="lineNum">     364 </span>            : 
+<span class="lineNum">     365 </span>            :   // Union of times of all step boundaries on any side.
+<span class="lineNum">     366 </span>            :   const auto union_times = [&amp;end_time, &amp;history, &amp;simulation_less]() noexcept {
+<span class="lineNum">     367 </span>            :     std::set&lt;Time, SimulationLess&gt; ret({end_time}, simulation_less);
+<span class="lineNum">     368 </span>            :     ret.insert(history-&gt;local_begin(), history-&gt;local_end());
+<span class="lineNum">     369 </span>            :     ret.insert(history-&gt;remote_begin(), history-&gt;remote_end());
+<span class="lineNum">     370 </span>            :     return ret;
+<span class="lineNum">     371 </span>            :   }();
+<span class="lineNum">     372 </span>            : 
+<span class="lineNum">     373 </span>            :   // Calculating the Adams-Bashforth coefficients is somewhat
+<span class="lineNum">     374 </span>            :   // expensive, so we cache them.  ab_coefs(it) returns the
+<span class="lineNum">     375 </span>            :   // coefficients used to step from *(it - 1) to *it.
+<span class="lineNum">     376 </span>            :   auto ab_coefs = [target_order_s]() noexcept {
+<span class="lineNum">     377 </span>            :     using Iter = decltype(union_times.cbegin());
+<span class="lineNum">     378 </span>            :     auto compare = [](const Iter&amp; a, const Iter&amp; b) noexcept {
+<span class="lineNum">     379 </span>            :       return Time::StructuralCompare{}(*a, *b);
+<span class="lineNum">     380 </span>            :     };
+<span class="lineNum">     381 </span>            :     return make_cached_function&lt;Iter, std::map, decltype(compare)&gt;(
+<span class="lineNum">     382 </span>            :         [target_order_s](const Iter&amp; times_end) noexcept {
+<span class="lineNum">     383 </span>            :           return get_coefficients(std::prev(times_end, target_order_s),
+<span class="lineNum">     384 </span>            :                                   times_end,
+<span class="lineNum">     385 </span>            :                                   *times_end - *std::prev(times_end));
+<span class="lineNum">     386 </span>            :         },
+<span class="lineNum">     387 </span>            :         std::move(compare));
+<span class="lineNum">     388 </span>            :   }();
+<span class="lineNum">     389 </span>            : 
+<span class="lineNum">     390 </span>            :   // Result variable.  We evaluate the coupling only for the
+<span class="lineNum">     391 </span>            :   // structure.  This evaluation may be expensive, but by choosing the
+<span class="lineNum">     392 </span>            :   // most recent times on both sides we should guarantee that it is a
+<span class="lineNum">     393 </span>            :   // result we need later, so this will serve to get it into the
+<span class="lineNum">     394 </span>            :   // coupling cache so we don't have to compute it when we actually use it.
+<span class="lineNum">     395 </span>            :   auto accumulated_change =
+<span class="lineNum">     396 </span>            :       make_with_value&lt;std::result_of_t&lt;const Coupling&amp;(LocalVars, RemoteVars)&gt;&gt;(
+<span class="lineNum">     397 </span>            :           history-&gt;coupling(
+<span class="lineNum">     398 </span>            :               coupling, history-&gt;local_end() - 1, history-&gt;remote_end() - 1),
+<span class="lineNum">     399 </span>            :           0.);
+<span class="lineNum">     400 </span>            : 
+<span class="lineNum">     401 </span>            :   const auto remote_start_step =
+<span class="lineNum">     402 </span>            :       std::upper_bound(history-&gt;remote_begin(), history-&gt;remote_end(),
+<span class="lineNum">     403 </span>            :                        start_time, simulation_less) - target_order_s;
+<span class="lineNum">     404 </span>            :   for (auto local_evaluation_step = history-&gt;local_begin();
+<span class="lineNum">     405 </span>            :        local_evaluation_step != history-&gt;local_end();
+<span class="lineNum">     406 </span>            :        ++local_evaluation_step) {
+<span class="lineNum">     407 </span>            :     for (auto remote_evaluation_step = remote_start_step;
+<span class="lineNum">     408 </span>            :          remote_evaluation_step != history-&gt;remote_end();
+<span class="lineNum">     409 </span>            :          ++remote_evaluation_step) {
+<span class="lineNum">     410 </span>            :       double deriv_coef = 0.;
+<span class="lineNum">     411 </span>            : 
+<span class="lineNum">     412 </span>            :       // Prepare to loop over the union times relevant for the current
+<span class="lineNum">     413 </span>            :       // coupling evaluation.
+<span class="lineNum">     414 </span>            : 
+<span class="lineNum">     415 </span>            :       // Latest of the time at the start of current step (otherwise
+<span class="lineNum">     416 </span>            :       // was computed in a previous call) and the times of the side
+<span class="lineNum">     417 </span>            :       // data being coupled (since segments can't depend on later
+<span class="lineNum">     418 </span>            :       // data).  It can be shown that it is only necessary to check
+<span class="lineNum">     419 </span>            :       // the remote side.
+<span class="lineNum">     420 </span>            :       const Time coupling_start_time =
+<span class="lineNum">     421 </span>            :           std::max(start_time, *remote_evaluation_step, simulation_less);
+<span class="lineNum">     422 </span>            :       // Earliest of the time at the end of the current step (since
+<span class="lineNum">     423 </span>            :       // the step can't depend on later data), and the time
+<span class="lineNum">     424 </span>            :       // target_order steps after the evaluation on each side (since
+<span class="lineNum">     425 </span>            :       // AB only uses data for that long).  It can be shown that it is
+<span class="lineNum">     426 </span>            :       // only necessary to check the remote side.
+<span class="lineNum">     427 </span>            :       const Time coupling_end_time =
+<span class="lineNum">     428 </span>            :           history-&gt;remote_end() - remote_evaluation_step &gt; target_order_s
+<span class="lineNum">     429 </span>            :               ? *(remote_evaluation_step + target_order_s)
+<span class="lineNum">     430 </span>            :               : end_time;
+<span class="lineNum">     431 </span>            :       const auto union_times_for_coupling_begin =
+<span class="lineNum">     432 </span>            :           std::upper_bound(union_times.cbegin(), union_times.cend(),
+<span class="lineNum">     433 </span>            :                            coupling_start_time, simulation_less);
+<span class="lineNum">     434 </span>            :       const auto union_times_for_coupling_end =
+<span class="lineNum">     435 </span>            :           std::upper_bound(union_times_for_coupling_begin, union_times.cend(),
+<span class="lineNum">     436 </span>            :                            coupling_end_time, simulation_less);
+<span class="lineNum">     437 </span>            : 
+<span class="lineNum">     438 </span>            :       // Iterator to the first time on the remote side relevant for the
+<span class="lineNum">     439 </span>            :       // current union step
+<span class="lineNum">     440 </span>            :       auto remote_interpolation_start =
+<span class="lineNum">     441 </span>            :           std::max(remote_evaluation_step - (target_order_s - 1),
+<span class="lineNum">     442 </span>            :                    remote_start_step);
+<span class="lineNum">     443 </span>            : 
+<span class="lineNum">     444 </span>            :       // This loop computes the coefficient of the coupling evaluation,
+<span class="lineNum">     445 </span>            :       // i.e., the sum over the I_{n,q}, as deriv_coef.  union_time
+<span class="lineNum">     446 </span>            :       // points to the end of the current union step.
+<span class="lineNum">     447 </span>            :       for (auto union_time = union_times_for_coupling_begin;
+<span class="lineNum">     448 </span>            :            union_time != union_times_for_coupling_end;
+<span class="lineNum">     449 </span>            :            ++union_time, ++remote_interpolation_start) {
+<span class="lineNum">     450 </span>            :         // Perform a single step Adams-Bashforth integration of a grid
+<span class="lineNum">     451 </span>            :         // cardinal function.  This computes the quantity called I_{n,q}
+<span class="lineNum">     452 </span>            :         // in the documentation as integrated_cardinal_function.
+<span class="lineNum">     453 </span>            :         const std::vector&lt;double&gt;&amp; method_coefs = ab_coefs(union_time);
+<span class="lineNum">     454 </span>            :         // This produces a reversed iterator pointing to the start of
+<span class="lineNum">     455 </span>            :         // the current union step.
+<span class="lineNum">     456 </span>            :         auto recent_time = std::make_reverse_iterator(union_time);
+<span class="lineNum">     457 </span>            :         auto method_it = method_coefs.begin();
+<span class="lineNum">     458 </span>            :         double integrated_cardinal_function = 0.;
+<span class="lineNum">     459 </span>            :         for (; method_it != method_coefs.end(); ++method_it, ++recent_time) {
+<span class="lineNum">     460 </span>            :           integrated_cardinal_function +=
+<span class="lineNum">     461 </span>            :               *method_it * grid_cardinal_function(recent_time-&gt;value(),
+<span class="lineNum">     462 </span>            :                                                   local_evaluation_step,
+<span class="lineNum">     463 </span>            :                                                   remote_evaluation_step,
+<span class="lineNum">     464 </span>            :                                                   remote_interpolation_start);
+<span class="lineNum">     465 </span>            :         }
+<span class="lineNum">     466 </span>            :         integrated_cardinal_function *=
+<span class="lineNum">     467 </span>            :             union_time-&gt;value() - std::prev(union_time)-&gt;value();
+<span class="lineNum">     468 </span>            : 
+<span class="lineNum">     469 </span>            :         deriv_coef += integrated_cardinal_function;
+<span class="lineNum">     470 </span>            :       }  // for union_time
+<span class="lineNum">     471 </span>            : 
+<span class="lineNum">     472 </span>            :       if (deriv_coef != 0.) {
+<span class="lineNum">     473 </span>            :         // We sometimes get exact zeros from the Lagrange polynomials.
+<span class="lineNum">     474 </span>            :         // Skip the (potentially expensive) coupling calculation in that
+<span class="lineNum">     475 </span>            :         // case.
+<span class="lineNum">     476 </span>            : 
+<span class="lineNum">     477 </span>            :         accumulated_change +=
+<span class="lineNum">     478 </span>            :             deriv_coef * history-&gt;coupling(coupling, local_evaluation_step,
+<span class="lineNum">     479 </span>            :                                            remote_evaluation_step);
+<span class="lineNum">     480 </span>            :       }
+<span class="lineNum">     481 </span>            :     }  // for remote_evaluation_step
+<span class="lineNum">     482 </span>            :   }  // for local_evaluation_step
+<span class="lineNum">     483 </span>            : 
+<span class="lineNum">     484 </span>            :   // Clean up old history
+<span class="lineNum">     485 </span>            : 
+<span class="lineNum">     486 </span>            :   // We know that the local side will step at end_time, so the
+<span class="lineNum">     487 </span>            :   // step containing that time will be the next step, which is not
+<span class="lineNum">     488 </span>            :   // currently in the history.
+<span class="lineNum">     489 </span>            :   history-&gt;local_mark_unneeded(history-&gt;local_end() - (target_order_s - 1));
+<span class="lineNum">     490 </span>            :   // We don't know whether other sides will step at end_time,
+<span class="lineNum">     491 </span>            :   // so we have to be conservative and assume they will not.
+<span class="lineNum">     492 </span>            :   history-&gt;remote_mark_unneeded(history-&gt;remote_end() - target_order_s);
+<span class="lineNum">     493 </span>            : 
+<span class="lineNum">     494 </span>            :   return accumulated_change;
+<span class="lineNum">     495 </span>            : }
+<span class="lineNum">     496 </span>            : 
+<span class="lineNum">     497 </span>            : template &lt;typename Iterator&gt;
+<span class="lineNum">     498 </span>            : std::vector&lt;double&gt; AdamsBashforthN::get_coefficients(
+<span class="lineNum">     499 </span>            :     const Iterator&amp; times_begin, const Iterator&amp; times_end,
+<span class="lineNum">     500 </span>            :     const TimeDelta&amp; step) noexcept {
+<span class="lineNum">     501 </span>            :   std::vector&lt;double&gt; steps;
+<span class="lineNum">     502 </span>            :   // This may be slightly more space than we need, but we can't get
+<span class="lineNum">     503 </span>            :   // the exact amount without iterating through the iterators, which
+<span class="lineNum">     504 </span>            :   // is not necessarily cheap depending on the iterator type.
+<span class="lineNum">     505 </span>            :   steps.reserve(maximum_order);
+<span class="lineNum">     506 </span>            :   for (auto t = times_begin; std::next(t) != times_end; ++t) {
+<span class="lineNum">     507 </span>            :     steps.push_back((*std::next(t) - *t) / step);
+<span class="lineNum">     508 </span>            :   }
+<span class="lineNum">     509 </span>            :   steps.push_back(1.);
+<span class="lineNum">     510 </span>            :   return get_coefficients_impl(steps);
+<span class="lineNum">     511 </span>            : }
+<span class="lineNum">     512 </span>            : 
+<span class="lineNum">     513 </span>            : }  // namespace TimeSteppers
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

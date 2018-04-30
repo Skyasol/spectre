@@ -1,0 +1,541 @@
+<!-- HTML header for doxygen 1.8.10-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="SXS Collaboration">
+    <meta name="generator" content="Doxygen 1.8.13"/>
+    <style>
+        /*!
+         * IE10 viewport hack for Surface/desktop Windows 8 bug
+         * Copyright 2014-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+        @-webkit-viewport { width: device-width; }
+        @-moz-viewport    { width: device-width; }
+        @-ms-viewport     { width: device-width; }
+        @-o-viewport      { width: device-width; }
+        @viewport         { width: device-width; }
+      </style>
+  <title>SpECTRE: Computational Domain</title>
+  <link href="tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dynsections.js"></script>
+  <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js", "TeX/AMSmath.js", "TeX/AMSsymbols.js", "color.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+MathJax.Hub.Config({
+    TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['^^','^^'], ['\\(', '\\)']]}
+});
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js"></script>
+  <link href="octicons.css" rel="stylesheet">
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <link href="doxygen.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="spectre.js"></script>
+  </head>
+  <body>
+  <div id="top" class="navbar-fixed-top"><!-- do not remove this div, it is closed by doxygen! -->
+  <!-- BEGIN TITLEAREA -->
+  <div id="titlearea">
+  <script type="text/javascript">
+  var searchBox = new SearchBox("searchBox", "search",false,'Search');
+  </script>
+  <div id="main-nav">
+    <ul class="sm sm-dox" id="main-menu">
+      <li>
+      <a href="index.html">
+      SpECTRE &#160;
+        <span id="projectnumber">v0.0.0</span>
+      </a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-book"></i><span>Documentation</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 135px;">
+            <a href="index.html">
+            <i class="octicon octicon-book"></i><span>Introduction</span></a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="installation.html">
+              <i class="octicon octicon-desktop-download"></i><span>Installation</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="tutorials.html">
+              <i class="octicon octicon-mortar-board"></i><span>User Tutorials</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="dev_guide.html">
+              <i class="octicon octicon-gist-secret"></i><span>Dev Guide</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-code"></i>
+              <span>Reference</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 130px;">
+            <a href="modules.html">
+              <i class="octicon octicon-code"></i>
+              <span>Topics</span>
+            </a>
+          </li>
+          <li style="min-width: 130px;">
+            <a href="namespaces.html">
+              <i class="octicon octicon-gist"></i>
+              <span>Namespaces</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="octicon octicon-file-directory"></i><span>Files</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/sxs-collaboration/spectre" target="_blank">
+          <i class="octicon octicon-mark-github"></i><span>View on GitHub</span>
+        </a>
+      </li>
+      <!--The Search <li> is added by doxygen later-->
+    </ul>
+  </div><!-- main-nav -->
+  </div><!-- titlearea -->
+  <!-- window showing the filter options -->
+  <div id="MSearchSelectWindow"  style="position: fixed;"
+       onmouseover="return searchBox.OnSearchSelectShow()"
+       onmouseout="return searchBox.OnSearchSelectHide()"
+       onkeydown="return searchBox.OnSearchSelectKey(event)">
+  </div>
+  <!-- iframe showing the search results (closed by default) -->
+  <div id="MSearchResultsWindow"  style="position: fixed;">
+  <iframe src="javascript:void(0)" frameborder="0"
+          name="MSearchResults" id="MSearchResults">
+  </iframe>
+  </div>
+<!-- Generated by Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle">
+<div class="title">Computational Domain</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>The building blocks used to describe the computational domain.  
+<a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlock.html">Block&lt; VolumeDim, TargetFrame &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Block&lt;VolumeDim&gt; is a region of a VolumeDim-dimensional computational domain that defines the root node of a tree which is used to construct the Elements that cover a region of the computational domain.  <a href="classBlock.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlockNeighbor.html">BlockNeighbor&lt; VolumeDim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about the neighbor of a <a class="el" href="classBlock.html" title="A Block&lt;VolumeDim&gt; is a region of a VolumeDim-dimensional computational domain that defines the root ...">Block</a> in a particular direction.  <a href="classBlockNeighbor.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDirection.html">Direction&lt; VolumeDim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A particular Side along a particular coordinate Axis.  <a href="classDirection.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDomain.html">Domain&lt; VolumeDim, TargetFrame &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A wrapper around a vector of Blocks that represent the computational domain.  <a href="classDomain.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPairOfFaces.html">PairOfFaces</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Each member in <code><a class="el" href="structPairOfFaces.html" title="Each member in PairOfFaces holds the global corner ids of a block face. PairOfFaces is used in settin...">PairOfFaces</a></code> holds the global corner ids of a block face. <code><a class="el" href="structPairOfFaces.html" title="Each member in PairOfFaces holds the global corner ids of a block face. PairOfFaces is used in settin...">PairOfFaces</a></code> is used in setting up periodic boundary conditions by identifying the two faces with each other.  <a href="structPairOfFaces.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classElement.html">Element&lt; VolumeDim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A spectral element with knowledge of its neighbors.  <a href="classElement.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classElementId.html">ElementId&lt; VolumeDim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <a class="el" href="classElementId.html" title="An ElementId uniquely labels an Element. It is constructed from the BlockId of the Block to which the...">ElementId</a> uniquely labels an <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a>. It is constructed from the BlockId of the <a class="el" href="classBlock.html" title="A Block&lt;VolumeDim&gt; is a region of a VolumeDim-dimensional computational domain that defines the root ...">Block</a> to which the <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a> belongs and the VolumeDim SegmentIds that label the segments of the <a class="el" href="classBlock.html" title="A Block&lt;VolumeDim&gt; is a region of a VolumeDim-dimensional computational domain that defines the root ...">Block</a> that the <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a> covers.  <a href="classElementId.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classElementMap.html">ElementMap&lt; Dim, TargetFrame &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classCoordinateMap.html" title="A coordinate map or composition of coordinate maps. ">CoordinateMap</a> for the <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a> from the Logical frame to the <code>TargetFrame</code>  <a href="classElementMap.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNeighbors.html">Neighbors&lt; VolumeDim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about the neighbors of an <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a> in a particular direction.  <a href="classNeighbors.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSegmentId.html">SegmentId</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classSegmentId.html" title="A SegmentId labels a segment of the interval [-1,1]. A SegmentId is used to (partially) identify an E...">SegmentId</a> labels a segment of the interval [-1,1]. A <a class="el" href="classSegmentId.html" title="A SegmentId labels a segment of the interval [-1,1]. A SegmentId is used to (partially) identify an E...">SegmentId</a> is used to (partially) identify an <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a>. The segment is the interval [-1 + 2*(N/D), -1 + 2*(N+1)/D] where N = index_ and D = 2 ^ refinement_level_.  <a href="classSegmentId.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structOptionTags_1_1DomainCreator.html">OptionTags::DomainCreator&lt; Dim, TargetFrame &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The input file tag for the <a class="el" href="structOptionTags_1_1DomainCreator.html" title="The input file tag for the DomainCreator to use. ">DomainCreator</a> to use.  <a href="structOptionTags_1_1DomainCreator.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTags_1_1Element.html">Tags::Element&lt; VolumeDim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a> associated with the <a class="el" href="structTags_1_1DataBox.html" title="Tag used to retrieve the DataBox from the db::get function. ">DataBox</a>.  <a href="structTags_1_1Element.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTags_1_1Extents.html">Tags::Extents&lt; VolumeDim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The extents of DataVectors in the <a class="el" href="structTags_1_1DataBox.html" title="Tag used to retrieve the DataBox from the db::get function. ">DataBox</a>.  <a href="structTags_1_1Extents.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTags_1_1LogicalCoordinates.html">Tags::LogicalCoordinates&lt; VolumeDim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The logical coordinates in the <a class="el" href="structTags_1_1Element.html" title="The Element associated with the DataBox. ">Element</a>.  <a href="structTags_1_1LogicalCoordinates.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTags_1_1ElementMap.html">Tags::ElementMap&lt; VolumeDim, Frame &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The coordinate map from logical to grid coordinate.  <a href="structTags_1_1ElementMap.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTags_1_1Coordinates.html">Tags::Coordinates&lt; MapTag, SourceCoordsTag &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The coordinates in the target frame of <code>MapTag</code>. The <code>SourceCoordsTag</code>'s frame must be the source frame of <code>MapTag</code>  <a href="structTags_1_1Coordinates.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTags_1_1InverseJacobian.html">Tags::InverseJacobian&lt; MapTag, SourceCoordsTag &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the inverse Jacobian of the map held by <code>MapTag</code> at the coordinates held by <code>SourceCoordsTag</code>. The coordinates must be in the source frame of the map.  <a href="structTags_1_1InverseJacobian.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTags_1_1InternalDirections.html">Tags::InternalDirections&lt; VolumeDim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The set of directions to neighboring Elements.  <a href="structTags_1_1InternalDirections.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTags_1_1InterfaceBase.html">Tags::InterfaceBase&lt; DirectionsTag, NameTag, FunctionTag &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base type for the <a class="el" href="structTags_1_1Interface.html" title="Prefix for an object on interfaces. ">Interface</a> tag. Exposed so that specializations can reuse the implementation.  <a href="structTags_1_1InterfaceBase.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTags_1_1Interface.html">Tags::Interface&lt; DirectionsTag, Tag, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prefix for an object on interfaces.  <a href="structTags_1_1Interface.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTags_1_1Direction.html">Tags::Direction&lt; VolumeDim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classDirection.html" title="A particular Side along a particular coordinate Axis. ">Direction</a> to an interface  <a href="structTags_1_1Direction.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ga8c0137d7160ad71b6ed265c53c99ed00"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga8c0137d7160ad71b6ed265c53c99ed00">Side</a> { <b>Lower</b>, 
+<b>Upper</b>
+ }<tr class="memdesc:ga8c0137d7160ad71b6ed265c53c99ed00"><td class="mdescLeft">&#160;</td><td class="mdescRight">A label for the side of a manifold.  <a href="group__ComputationalDomainGroup.html#ga8c0137d7160ad71b6ed265c53c99ed00">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:ga8c0137d7160ad71b6ed265c53c99ed00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga0e63cc7558505c55defa051305ee04b9"><td class="memTemplParams" colspan="2"><a id="ga0e63cc7558505c55defa051305ee04b9"></a>
+template&lt;typename SourceFrame , typename TargetFrame , typename... Maps&gt; </td></tr>
+<tr class="memitem:ga0e63cc7558505c55defa051305ee04b9"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="classCoordinateMap.html">CoordinateMap</a>&lt; SourceFrame, TargetFrame, <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/types/decay.html">std::decay_t</a>&lt; Maps &gt;... &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga0e63cc7558505c55defa051305ee04b9">make_coordinate_map</a> (Maps &amp;&amp;... maps)</td></tr>
+<tr class="memdesc:ga0e63cc7558505c55defa051305ee04b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="classCoordinateMap.html" title="A coordinate map or composition of coordinate maps. ">CoordinateMap</a></code> of <code>maps...</code> <br /></td></tr>
+<tr class="separator:ga0e63cc7558505c55defa051305ee04b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafaa1515d13d2371eb307de2aaab8a62f"><td class="memTemplParams" colspan="2"><a id="gafaa1515d13d2371eb307de2aaab8a62f"></a>
+template&lt;typename SourceFrame , typename TargetFrame , typename... Maps&gt; </td></tr>
+<tr class="memitem:gafaa1515d13d2371eb307de2aaab8a62f"><td class="memTemplItemLeft" align="right" valign="top"><a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt; <a class="el" href="classCoordinateMapBase.html">CoordinateMapBase</a>&lt; SourceFrame, TargetFrame, <a class="el" href="classCoordinateMap.html">CoordinateMap</a>&lt; SourceFrame, TargetFrame, <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/types/decay.html">std::decay_t</a>&lt; Maps &gt;... &gt;::dim &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#gafaa1515d13d2371eb307de2aaab8a62f">make_coordinate_map_base</a> (Maps &amp;&amp;... maps) noexcept</td></tr>
+<tr class="memdesc:gafaa1515d13d2371eb307de2aaab8a62f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt;<a class="el" href="classCoordinateMapBase.html" title="Abstract base class for CoordinateMap. ">CoordinateMapBase</a>&gt;</code> of <code>maps...</code> <br /></td></tr>
+<tr class="separator:gafaa1515d13d2371eb307de2aaab8a62f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga499c0a9e24e3e727f2608fae42c05625"><td class="memTemplParams" colspan="2"><a id="ga499c0a9e24e3e727f2608fae42c05625"></a>
+template&lt;typename SourceFrame , typename TargetFrame , typename Arg0 , typename... Args&gt; </td></tr>
+<tr class="memitem:ga499c0a9e24e3e727f2608fae42c05625"><td class="memTemplItemLeft" align="right" valign="top"><a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt; <a class="el" href="classCoordinateMapBase.html">CoordinateMapBase</a>&lt; SourceFrame, TargetFrame, <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/types/decay.html">std::decay_t</a>&lt; Arg0 &gt;::dim &gt; &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga499c0a9e24e3e727f2608fae42c05625">make_vector_coordinate_map_base</a> (Arg0 &amp;&amp;arg_0, Args &amp;&amp;... remaining_args) noexcept</td></tr>
+<tr class="memdesc:ga499c0a9e24e3e727f2608fae42c05625"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt;<a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt;<a class="el" href="classCoordinateMapBase.html" title="Abstract base class for CoordinateMap. ">CoordinateMapBase</a>&gt;&gt;</code> containing the result of <code>make_coordinate_map_base</code> applied to each argument passed in. <br /></td></tr>
+<tr class="separator:ga499c0a9e24e3e727f2608fae42c05625"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1184e9f52cfd40ae865bf8bdd13d5e54"><td class="memTemplParams" colspan="2"><a id="ga1184e9f52cfd40ae865bf8bdd13d5e54"></a>
+template&lt;size_t VolumeDim, typename TargetFrame &gt; </td></tr>
+<tr class="memitem:ga1184e9f52cfd40ae865bf8bdd13d5e54"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classElement.html">Element</a>&lt; VolumeDim &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga1184e9f52cfd40ae865bf8bdd13d5e54">create_initial_element</a> (const <a class="el" href="classElementId.html">ElementId</a>&lt; VolumeDim &gt; &amp;element_id, const <a class="el" href="classBlock.html">Block</a>&lt; VolumeDim, TargetFrame &gt; &amp;block) noexcept</td></tr>
+<tr class="memdesc:ga1184e9f52cfd40ae865bf8bdd13d5e54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an initial element of a <a class="el" href="classBlock.html" title="A Block&lt;VolumeDim&gt; is a region of a VolumeDim-dimensional computational domain that defines the root ...">Block</a>. <br /></td></tr>
+<tr class="separator:ga1184e9f52cfd40ae865bf8bdd13d5e54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga025810457f7fb9d963c470af94cc2cf0"><td class="memTemplParams" colspan="2"><a id="ga025810457f7fb9d963c470af94cc2cf0"></a>
+template&lt;size_t VolumeDim&gt; </td></tr>
+<tr class="memitem:ga025810457f7fb9d963c470af94cc2cf0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga025810457f7fb9d963c470af94cc2cf0">set_internal_boundaries</a> (const <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/array.html">std::array</a>&lt; size_t, <a class="el" href="group__ConstantExpressionsGroup.html#ga6c01ded3973bb4b9973e5381c32c0807">two_to_the</a>(VolumeDim)&gt;&gt; &amp;corners_of_all_blocks, <a class="el" href="classgsl_1_1not__null.html">gsl::not_null</a>&lt; <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/unordered_map.html">std::unordered_map</a>&lt; <a class="el" href="classDirection.html">Direction</a>&lt; VolumeDim &gt;, <a class="el" href="classBlockNeighbor.html">BlockNeighbor</a>&lt; VolumeDim &gt;&gt;&gt; *&gt; neighbors_of_all_blocks)</td></tr>
+<tr class="memdesc:ga025810457f7fb9d963c470af94cc2cf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up the BlockNeighbors using the corner numbering scheme to deduce the correct neighbors and orientations. Does not set up periodic boundary conditions. <br /></td></tr>
+<tr class="separator:ga025810457f7fb9d963c470af94cc2cf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga267f58ec8ee41f31cc11dacfc685d7b3"><td class="memTemplParams" colspan="2"><a id="ga267f58ec8ee41f31cc11dacfc685d7b3"></a>
+template&lt;size_t VolumeDim&gt; </td></tr>
+<tr class="memitem:ga267f58ec8ee41f31cc11dacfc685d7b3"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga267f58ec8ee41f31cc11dacfc685d7b3">set_periodic_boundaries</a> (const <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="el" href="structPairOfFaces.html">PairOfFaces</a> &gt; &amp;identifications, const <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/array.html">std::array</a>&lt; size_t, <a class="el" href="group__ConstantExpressionsGroup.html#ga6c01ded3973bb4b9973e5381c32c0807">two_to_the</a>(VolumeDim)&gt;&gt; &amp;corners_of_all_blocks, <a class="el" href="classgsl_1_1not__null.html">gsl::not_null</a>&lt; <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/unordered_map.html">std::unordered_map</a>&lt; <a class="el" href="classDirection.html">Direction</a>&lt; VolumeDim &gt;, <a class="el" href="classBlockNeighbor.html">BlockNeighbor</a>&lt; VolumeDim &gt;&gt;&gt; *&gt; neighbors_of_all_blocks)</td></tr>
+<tr class="memdesc:ga267f58ec8ee41f31cc11dacfc685d7b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up additional BlockNeighbors corresponding to any periodic boundary condtions provided by the user. These are stored in identifications. <br /></td></tr>
+<tr class="separator:ga267f58ec8ee41f31cc11dacfc685d7b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7929e015642e17af3d7d6cb2e0b40f17"><td class="memTemplParams" colspan="2"><a id="ga7929e015642e17af3d7d6cb2e0b40f17"></a>
+template&lt;typename TargetFrame &gt; </td></tr>
+<tr class="memitem:ga7929e015642e17af3d7d6cb2e0b40f17"><td class="memTemplItemLeft" align="right" valign="top"><a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt; <a class="el" href="classCoordinateMapBase.html">CoordinateMapBase</a>&lt; <a class="el" href="structFrame_1_1Logical.html">Frame::Logical</a>, TargetFrame, 3 &gt; &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga7929e015642e17af3d7d6cb2e0b40f17">wedge_coordinate_maps</a> (double inner_radius, double outer_radius, double inner_sphericity, double outer_sphericity, bool use_equiangular_map) noexcept</td></tr>
+<tr class="memdesc:ga7929e015642e17af3d7d6cb2e0b40f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">These are the six Wedge3Ds used in the <a class="el" href="namespaceDomainCreators.html" title="Defines classes that create Domains. ">DomainCreators</a> for Sphere and Shell. <br /></td></tr>
+<tr class="separator:ga7929e015642e17af3d7d6cb2e0b40f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab5385662d879ac6f4e9dbbca5d1d9dcf"><td class="memTemplParams" colspan="2"><a id="gab5385662d879ac6f4e9dbbca5d1d9dcf"></a>
+template&lt;size_t Dim&gt; </td></tr>
+<tr class="memitem:gab5385662d879ac6f4e9dbbca5d1d9dcf"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#gab5385662d879ac6f4e9dbbca5d1d9dcf">index_to_slice_at</a> (const <a class="el" href="classIndex.html">Index</a>&lt; Dim &gt; &amp;extents, const <a class="el" href="classDirection.html">Direction</a>&lt; Dim &gt; &amp;direction) noexcept</td></tr>
+<tr class="memdesc:gab5385662d879ac6f4e9dbbca5d1d9dcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the index in the perpendicular dimension of an element boundary. <br /></td></tr>
+<tr class="separator:gab5385662d879ac6f4e9dbbca5d1d9dcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadbd6da000524acf8f467d9f297ff648c"><td class="memTemplParams" colspan="2"><a id="gadbd6da000524acf8f467d9f297ff648c"></a>
+template&lt;size_t VolumeDim&gt; </td></tr>
+<tr class="memitem:gadbd6da000524acf8f467d9f297ff648c"><td class="memTemplItemLeft" align="right" valign="top"><a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="el" href="classElementId.html">ElementId</a>&lt; VolumeDim &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#gadbd6da000524acf8f467d9f297ff648c">initial_element_ids</a> (size_t block_id, <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/array.html">std::array</a>&lt; size_t, VolumeDim &gt; initial_ref_levs) noexcept</td></tr>
+<tr class="memdesc:gadbd6da000524acf8f467d9f297ff648c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the <code><a class="el" href="classElementId.html" title="An ElementId uniquely labels an Element. It is constructed from the BlockId of the Block to which the...">ElementId</a></code>s of the a single <a class="el" href="classBlock.html" title="A Block&lt;VolumeDim&gt; is a region of a VolumeDim-dimensional computational domain that defines the root ...">Block</a>. <br /></td></tr>
+<tr class="separator:gadbd6da000524acf8f467d9f297ff648c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3dc8997f1019309f79ef4ba9cc7848a8"><td class="memTemplParams" colspan="2"><a id="ga3dc8997f1019309f79ef4ba9cc7848a8"></a>
+template&lt;size_t VolumeDim&gt; </td></tr>
+<tr class="memitem:ga3dc8997f1019309f79ef4ba9cc7848a8"><td class="memTemplItemLeft" align="right" valign="top"><a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="el" href="classElementId.html">ElementId</a>&lt; VolumeDim &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga3dc8997f1019309f79ef4ba9cc7848a8">initial_element_ids</a> (const <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" doxygen="/work/spectre/docs/config/cppreference-doxygen-web.tag.xml:http://en.cppreference.com/w/" href="http://en.cppreference.com/w/cpp/container/array.html">std::array</a>&lt; size_t, VolumeDim &gt;&gt; &amp;initial_refinement_levels) noexcept</td></tr>
+<tr class="memdesc:ga3dc8997f1019309f79ef4ba9cc7848a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the <code><a class="el" href="classElementId.html" title="An ElementId uniquely labels an Element. It is constructed from the BlockId of the Block to which the...">ElementId</a></code>s of the initial computational domain. <br /></td></tr>
+<tr class="separator:ga3dc8997f1019309f79ef4ba9cc7848a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga49b43a7bddf0e6ae22f045f39fa7bdba"><td class="memTemplParams" colspan="2">template&lt;size_t VolumeDim&gt; </td></tr>
+<tr class="memitem:ga49b43a7bddf0e6ae22f045f39fa7bdba"><td class="memTemplItemLeft" align="right" valign="top">tnsr::I&lt; <a class="el" href="classDataVector.html">DataVector</a>, VolumeDim, <a class="el" href="structFrame_1_1Logical.html">Frame::Logical</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga49b43a7bddf0e6ae22f045f39fa7bdba">logical_coordinates</a> (const <a class="el" href="classIndex.html">Index</a>&lt; VolumeDim &gt; &amp;extents) noexcept</td></tr>
+<tr class="memdesc:ga49b43a7bddf0e6ae22f045f39fa7bdba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the Legendre-Gauss-Lobatto coordinates in an <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a>.  <a href="#ga49b43a7bddf0e6ae22f045f39fa7bdba">More...</a><br /></td></tr>
+<tr class="separator:ga49b43a7bddf0e6ae22f045f39fa7bdba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8401b23f4082634f46b53706c73b6cee"><td class="memTemplParams" colspan="2">template&lt;size_t VolumeDim&gt; </td></tr>
+<tr class="memitem:ga8401b23f4082634f46b53706c73b6cee"><td class="memTemplItemLeft" align="right" valign="top">tnsr::I&lt; <a class="el" href="classDataVector.html">DataVector</a>, VolumeDim, <a class="el" href="structFrame_1_1Logical.html">Frame::Logical</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga8401b23f4082634f46b53706c73b6cee">interface_logical_coordinates</a> (const <a class="el" href="classIndex.html">Index</a>&lt; VolumeDim - 1 &gt; &amp;extents, const <a class="el" href="classDirection.html">Direction</a>&lt; VolumeDim &gt; &amp;direction) noexcept</td></tr>
+<tr class="memdesc:ga8401b23f4082634f46b53706c73b6cee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the logical coordinates on a face of an <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a>.  <a href="#ga8401b23f4082634f46b53706c73b6cee">More...</a><br /></td></tr>
+<tr class="separator:ga8401b23f4082634f46b53706c73b6cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4c13be5f08d5822e16d93829cc5dc909"><td class="memTemplParams" colspan="2">template&lt;size_t VolumeDim, typename TargetFrame &gt; </td></tr>
+<tr class="memitem:ga4c13be5f08d5822e16d93829cc5dc909"><td class="memTemplItemLeft" align="right" valign="top">tnsr::i&lt; <a class="el" href="classDataVector.html">DataVector</a>, VolumeDim, TargetFrame &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga4c13be5f08d5822e16d93829cc5dc909">unnormalized_face_normal</a> (const <a class="el" href="classIndex.html">Index</a>&lt; VolumeDim - 1 &gt; &amp;interface_extents, const <a class="el" href="classElementMap.html">ElementMap</a>&lt; VolumeDim, TargetFrame &gt; &amp;map, const <a class="el" href="classDirection.html">Direction</a>&lt; VolumeDim &gt; &amp;direction) noexcept</td></tr>
+<tr class="memdesc:ga4c13be5f08d5822e16d93829cc5dc909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the outward grid normal on a face of an <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a>.  <a href="#ga4c13be5f08d5822e16d93829cc5dc909">More...</a><br /></td></tr>
+<tr class="separator:ga4c13be5f08d5822e16d93829cc5dc909"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga64897c5d846ce319b7b8261bf419c4f4"><td class="memTemplParams" colspan="2">template&lt;size_t VolumeDim, typename TargetFrame &gt; </td></tr>
+<tr class="memitem:ga64897c5d846ce319b7b8261bf419c4f4"><td class="memTemplItemLeft" align="right" valign="top">tnsr::i&lt; <a class="el" href="classDataVector.html">DataVector</a>, VolumeDim, TargetFrame &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__ComputationalDomainGroup.html#ga64897c5d846ce319b7b8261bf419c4f4">unnormalized_face_normal</a> (const <a class="el" href="classIndex.html">Index</a>&lt; VolumeDim - 1 &gt; &amp;interface_extents, const <a class="el" href="classCoordinateMapBase.html">CoordinateMapBase</a>&lt; <a class="el" href="structFrame_1_1Logical.html">Frame::Logical</a>, TargetFrame, VolumeDim &gt; &amp;map, const <a class="el" href="classDirection.html">Direction</a>&lt; VolumeDim &gt; &amp;direction) noexcept</td></tr>
+<tr class="memdesc:ga64897c5d846ce319b7b8261bf419c4f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the outward grid normal on a face of an <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a>.  <a href="#ga64897c5d846ce319b7b8261bf419c4f4">More...</a><br /></td></tr>
+<tr class="separator:ga64897c5d846ce319b7b8261bf419c4f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<p>The building blocks used to describe the computational domain. </p>
+<h3>Description</h3>
+<p>The VolumeDim-dimensional computational <a class="el" href="classDomain.html" title="A wrapper around a vector of Blocks that represent the computational domain. ">Domain</a> is constructed from a set of non-overlapping <a class="el" href="classBlock.html" title="A Block&lt;VolumeDim&gt; is a region of a VolumeDim-dimensional computational domain that defines the root ...">Block</a>s. Each <a class="el" href="classBlock.html" title="A Block&lt;VolumeDim&gt; is a region of a VolumeDim-dimensional computational domain that defines the root ...">Block</a> is a distorted VolumeDim-dimensional hyperrcube Each codimension-1 boundary of a <a class="el" href="classBlock.html" title="A Block&lt;VolumeDim&gt; is a region of a VolumeDim-dimensional computational domain that defines the root ...">Block</a> is either part of the external boundary of the computational domain, or is identical to a boundary of one other <a class="el" href="classBlock.html" title="A Block&lt;VolumeDim&gt; is a region of a VolumeDim-dimensional computational domain that defines the root ...">Block</a>. Each <a class="el" href="classBlock.html" title="A Block&lt;VolumeDim&gt; is a region of a VolumeDim-dimensional computational domain that defines the root ...">Block</a> is subdivided into one or more <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a>s that may be changed dynamically if AMR is enabled. </p>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ga8c0137d7160ad71b6ed265c53c99ed00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8c0137d7160ad71b6ed265c53c99ed00">&#9670;&nbsp;</a></span>Side</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__ComputationalDomainGroup.html#ga8c0137d7160ad71b6ed265c53c99ed00">Side</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A label for the side of a manifold. </p>
+<p>Lower and Upper are with respect to the logical coordinate whose axis is normal to the side, i.e. beyond the Upper (Lower) side, the logical coordinate is increasing (decreasing). </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ga8401b23f4082634f46b53706c73b6cee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8401b23f4082634f46b53706c73b6cee">&#9670;&nbsp;</a></span>interface_logical_coordinates()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t VolumeDim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tnsr::I&lt;<a class="el" href="classDataVector.html">DataVector</a>, VolumeDim, <a class="el" href="structFrame_1_1Logical.html">Frame::Logical</a>&gt; interface_logical_coordinates </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classIndex.html">Index</a>&lt; VolumeDim - 1 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>extents</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDirection.html">Direction</a>&lt; VolumeDim &gt; &amp;&#160;</td>
+          <td class="paramname"><em>direction</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute the logical coordinates on a face of an <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a>. </p>
+<p><em>Returns:</em> logical-frame vector holding coordinates</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">  <span class="keyword">const</span> <a class="code" href="classIndex.html">Index&lt;2&gt;</a> extents_3d_zbdry(<a class="code" href="classIndex.html">Index&lt;2&gt;</a>(5, 3));</div><div class="line"></div><div class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> x_3d_lb_zeta = map_3d(<a class="code" href="group__ComputationalDomainGroup.html#ga8401b23f4082634f46b53706c73b6cee">interface_logical_coordinates</a>(</div><div class="line">      extents_3d_zbdry, <a class="code" href="classDirection.html">Direction&lt;3&gt;::lower_zeta</a>()));</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ga49b43a7bddf0e6ae22f045f39fa7bdba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga49b43a7bddf0e6ae22f045f39fa7bdba">&#9670;&nbsp;</a></span>logical_coordinates()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t VolumeDim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tnsr::I&lt;<a class="el" href="classDataVector.html">DataVector</a>, VolumeDim, <a class="el" href="structFrame_1_1Logical.html">Frame::Logical</a>&gt; logical_coordinates </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classIndex.html">Index</a>&lt; VolumeDim &gt; &amp;&#160;</td>
+          <td class="paramname"><em>extents</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute the Legendre-Gauss-Lobatto coordinates in an <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a>. </p>
+<p><em>Returns:</em> logical-frame vector holding coordinates</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">  <span class="keyword">const</span> <a class="code" href="classIndex.html">Index&lt;3&gt;</a> extents_3d(<a class="code" href="classIndex.html">Index&lt;3&gt;</a>(5, 3, 2));</div><div class="line"></div><div class="line">  <span class="keyword">const</span> <a class="code" href="classCoordinateMaps_1_1Affine.html">CoordinateMaps::Affine</a> x_map{-1.0, 1.0, -3.0, 7.0};</div><div class="line">  <span class="keyword">const</span> <a class="code" href="classCoordinateMaps_1_1Affine.html">CoordinateMaps::Affine</a> y_map{-1.0, 1.0, -13.0, 47.0};</div><div class="line">  <span class="keyword">const</span> <a class="code" href="classCoordinateMaps_1_1Affine.html">CoordinateMaps::Affine</a> z_map{-1.0, 1.0, -32.0, 74.0};</div><div class="line"></div><div class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> map_3d = make_coordinate_map&lt;Frame::Logical, Frame::Grid&gt;(</div><div class="line">      Affine3d{x_map, y_map, z_map});</div><div class="line"></div><div class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> x_3d = map_3d(<a class="code" href="group__ComputationalDomainGroup.html#ga49b43a7bddf0e6ae22f045f39fa7bdba">logical_coordinates</a>(extents_3d));</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ga4c13be5f08d5822e16d93829cc5dc909"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4c13be5f08d5822e16d93829cc5dc909">&#9670;&nbsp;</a></span>unnormalized_face_normal() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t VolumeDim, typename TargetFrame &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tnsr::i&lt;<a class="el" href="classDataVector.html">DataVector</a>, VolumeDim, TargetFrame&gt; unnormalized_face_normal </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classIndex.html">Index</a>&lt; VolumeDim - 1 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>interface_extents</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classElementMap.html">ElementMap</a>&lt; VolumeDim, TargetFrame &gt; &amp;&#160;</td>
+          <td class="paramname"><em>map</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDirection.html">Direction</a>&lt; VolumeDim &gt; &amp;&#160;</td>
+          <td class="paramname"><em>direction</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute the outward grid normal on a face of an <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a>. </p>
+<p><em>Returns:</em> outward grid-frame one-form holding the normal</p>
+<h3>Details</h3>
+<p>Computes the grid-frame normal by taking the logical-frame unit one-form in the given <a class="el" href="classDirection.html" title="A particular Side along a particular coordinate Axis. ">Direction</a> and mapping it to the grid frame with the given map.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">  <span class="keyword">const</span> <a class="code" href="classIndex.html">Index&lt;0&gt;</a> extents_0d;</div><div class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> map_1d = make_coordinate_map&lt;Frame::Logical, Frame::Grid&gt;(</div><div class="line">      <a class="code" href="classCoordinateMaps_1_1Affine.html">CoordinateMaps::Affine</a>(-1.0, 1.0, -3.0, 7.0));</div><div class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> normal_1d_lower =</div><div class="line">      <a class="code" href="group__ComputationalDomainGroup.html#ga4c13be5f08d5822e16d93829cc5dc909">unnormalized_face_normal</a>(extents_0d, map_1d, <a class="code" href="classDirection.html">Direction&lt;1&gt;::lower_xi</a>());</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ga64897c5d846ce319b7b8261bf419c4f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga64897c5d846ce319b7b8261bf419c4f4">&#9670;&nbsp;</a></span>unnormalized_face_normal() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t VolumeDim, typename TargetFrame &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tnsr::i&lt;<a class="el" href="classDataVector.html">DataVector</a>, VolumeDim, TargetFrame&gt; unnormalized_face_normal </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classIndex.html">Index</a>&lt; VolumeDim - 1 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>interface_extents</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classCoordinateMapBase.html">CoordinateMapBase</a>&lt; <a class="el" href="structFrame_1_1Logical.html">Frame::Logical</a>, TargetFrame, VolumeDim &gt; &amp;&#160;</td>
+          <td class="paramname"><em>map</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDirection.html">Direction</a>&lt; VolumeDim &gt; &amp;&#160;</td>
+          <td class="paramname"><em>direction</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute the outward grid normal on a face of an <a class="el" href="classElement.html" title="A spectral element with knowledge of its neighbors. ">Element</a>. </p>
+<p><em>Returns:</em> outward grid-frame one-form holding the normal</p>
+<h3>Details</h3>
+<p>Computes the grid-frame normal by taking the logical-frame unit one-form in the given <a class="el" href="classDirection.html" title="A particular Side along a particular coordinate Axis. ">Direction</a> and mapping it to the grid frame with the given map.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">  <span class="keyword">const</span> <a class="code" href="classIndex.html">Index&lt;0&gt;</a> extents_0d;</div><div class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> map_1d = make_coordinate_map&lt;Frame::Logical, Frame::Grid&gt;(</div><div class="line">      <a class="code" href="classCoordinateMaps_1_1Affine.html">CoordinateMaps::Affine</a>(-1.0, 1.0, -3.0, 7.0));</div><div class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> normal_1d_lower =</div><div class="line">      <a class="code" href="group__ComputationalDomainGroup.html#ga4c13be5f08d5822e16d93829cc5dc909">unnormalized_face_normal</a>(extents_0d, map_1d, <a class="code" href="classDirection.html">Direction&lt;1&gt;::lower_xi</a>());</div></div><!-- fragment -->
+</div>
+</div>
+</div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.10-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+&copy; Copyright 2017 - 2018
+<a href="https://black-holes.org">SXS Collaboration</a>,
+<a href="LICENSE.txt" target="_blank">
+<span class="hidden-xs">Distributed under the</span>
+MIT License</a>
+</small></address>
+</body>
+</html>

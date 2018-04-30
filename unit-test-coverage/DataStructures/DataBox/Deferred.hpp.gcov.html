@@ -1,0 +1,369 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - 7ecfd00f56917760beef377e49fab67d9a3967dc - DataStructures/DataBox/Deferred.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">SpECTRE Unit Test Code Coverage Report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DataStructures/DataBox</a> - Deferred.hpp<span style="font-size: 80%;"> (source / <a href="Deferred.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Commit:</td>
+             <td class="headerValue"><a target="_blank" href="https://github.com/sxs-collaboration/spectre/commit/7ecfd00f56917760beef377e49fab67d9a3967dc">7ecfd00f56917760beef377e49fab67d9a3967dc</a></td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">60</td>
+            <td class="headerCovTableEntry">60</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2018-04-30 17:39:52</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2881</td>
+            <td class="headerCovTableEntry">3918</td>
+            <td class="headerCovTableEntryLo">73.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Distributed under the MIT License.</a>
+<span class="lineNum">       2 </span>            : // See LICENSE.txt for details.
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : /// \file
+<span class="lineNum">       5 </span>            : /// Defines class Deferred and make function
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : #pragma once
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : #include &lt;boost/make_shared.hpp&gt;
+<span class="lineNum">      10 </span>            : #include &lt;boost/shared_ptr.hpp&gt;
+<span class="lineNum">      11 </span>            : #include &lt;memory&gt;
+<span class="lineNum">      12 </span>            : #include &lt;tuple&gt;
+<span class="lineNum">      13 </span>            : #include &lt;type_traits&gt;
+<span class="lineNum">      14 </span>            : #include &lt;utility&gt;
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : #include &quot;ErrorHandling/Error.hpp&quot;
+<span class="lineNum">      17 </span>            : #include &quot;Utilities/Gsl.hpp&quot;
+<span class="lineNum">      18 </span>            : #include &quot;Utilities/Requires.hpp&quot;
+<span class="lineNum">      19 </span>            : #include &quot;Utilities/TypeTraits.hpp&quot;
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : template &lt;typename Rt&gt;
+<span class="lineNum">      22 </span>            : class Deferred;
+<span class="lineNum">      23 </span>            : 
+<a name="24"><span class="lineNum">      24 </span>            : namespace Deferred_detail {</a>
+<span class="lineNum">      25 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      26 </span><span class="lineCov">       1151 : decltype(auto) retrieve_from_deferred(const T&amp; t) {</span>
+<span class="lineNum">      27 </span><span class="lineCov">       1151 :   return t;</span>
+<span class="lineNum">      28 </span>            : }
+<a name="29"><span class="lineNum">      29 </span>            : </a>
+<span class="lineNum">      30 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      31 </span><span class="lineCov">      18660 : decltype(auto) retrieve_from_deferred(const Deferred&lt;T&gt;&amp; t) {</span>
+<span class="lineNum">      32 </span><span class="lineCov">      18660 :   return t.get();</span>
+<span class="lineNum">      33 </span>            : }
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      36 </span>            : struct remove_deferred {
+<span class="lineNum">      37 </span>            :   using type = T;
+<span class="lineNum">      38 </span>            : };
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      41 </span>            : struct remove_deferred&lt;Deferred&lt;T&gt;&gt; {
+<span class="lineNum">      42 </span>            :   using type = T;
+<span class="lineNum">      43 </span>            : };
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      46 </span>            : using remove_deferred_t = typename remove_deferred&lt;T&gt;::type;
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            : template &lt;typename Rt&gt;
+<a name="49"><span class="lineNum">      49 </span>            : class assoc_state {</a>
+<span class="lineNum">      50 </span>            :  public:
+<span class="lineNum">      51 </span><span class="lineCov">      26639 :   assoc_state() = default;</span>
+<span class="lineNum">      52 </span>            :   assoc_state(const assoc_state&amp; /*rhs*/) = delete;
+<span class="lineNum">      53 </span>            :   assoc_state&amp; operator=(const assoc_state&amp; /*rhs*/) = delete;
+<span class="lineNum">      54 </span>            :   assoc_state(assoc_state&amp;&amp; /*rhs*/) = delete;
+<span class="lineNum">      55 </span>            :   assoc_state&amp; operator=(assoc_state&amp;&amp; /*rhs*/) = delete;
+<span class="lineNum">      56 </span>            :   virtual const Rt&amp; get() const = 0;
+<span class="lineNum">      57 </span>            :   virtual Rt&amp; mutate() = 0;
+<a name="58"><span class="lineNum">      58 </span>            :   // clang-tidy: no non-const references</a>
+<span class="lineNum">      59 </span>            :   virtual void pack_unpack_lazy_function(PUP::er&amp; p) noexcept = 0;  // NOLINT
+<span class="lineNum">      60 </span><span class="lineCov">      25692 :   virtual ~assoc_state() = default;</span>
+<span class="lineNum">      61 </span>            : };
+<a name="62"><span class="lineNum">      62 </span>            : </a>
+<span class="lineNum">      63 </span>            : template &lt;typename Rt&gt;
+<a name="64"><span class="lineNum">      64 </span><span class="lineCov">       4870 : class simple_assoc_state : public assoc_state&lt;Rt&gt; {</span></a>
+<span class="lineNum">      65 </span>            :  public:
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">       5326 :   explicit simple_assoc_state(Rt t) : t_(std::move(t)) {}</span></a>
+<span class="lineNum">      67 </span>            : 
+<a name="68"><span class="lineNum">      68 </span><span class="lineCov">      17717 :   const Rt&amp; get() const override { return t_; }</span></a>
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span><span class="lineCov">      17198 :   Rt&amp; mutate() override { return t_; }</span>
+<a name="71"><span class="lineNum">      71 </span>            : </a>
+<span class="lineNum">      72 </span>            :   // clang-tidy: no non-const references
+<span class="lineNum">      73 </span><span class="lineCov">          1 :   void pack_unpack_lazy_function(PUP::er&amp; /*p*/) noexcept override {  // NOLINT</span>
+<span class="lineNum">      74 </span><span class="lineCov">          1 :     ERROR(&quot;Cannot send a Deferred that's not a lazily evaluated function&quot;);</span>
+<span class="lineNum">      75 </span>            :   }
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            :  private:
+<span class="lineNum">      78 </span>            :   Rt t_;
+<span class="lineNum">      79 </span>            : };
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            : template &lt;typename Rt, typename Fp, typename... Args&gt;
+<a name="82"><span class="lineNum">      82 </span>            : class deferred_assoc_state : public assoc_state&lt;Rt&gt; {</a>
+<span class="lineNum">      83 </span>            :  public:
+<span class="lineNum">      84 </span><span class="lineCov">      21313 :   explicit deferred_assoc_state(Fp f, Args... args)</span>
+<span class="lineNum">      85 </span><span class="lineCov">      21313 :       : func_(std::move(f)), args_(std::make_tuple(std::move(args)...)) {}</span>
+<span class="lineNum">      86 </span>            :   deferred_assoc_state(const deferred_assoc_state&amp; /*rhs*/) = delete;
+<span class="lineNum">      87 </span>            :   deferred_assoc_state&amp; operator=(const deferred_assoc_state&amp; /*rhs*/) = delete;
+<a name="88"><span class="lineNum">      88 </span>            :   deferred_assoc_state(deferred_assoc_state&amp;&amp; /*rhs*/) = delete;</a>
+<span class="lineNum">      89 </span>            :   deferred_assoc_state&amp; operator=(deferred_assoc_state&amp;&amp; /*rhs*/) = delete;
+<a name="90"><span class="lineNum">      90 </span><span class="lineCov">      20822 :   ~deferred_assoc_state() override = default;</span></a>
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span><span class="lineCov">      23683 :   const Rt&amp; get() const override {</span>
+<span class="lineNum">      93 </span><span class="lineCov">      23683 :     if (not evaluated_) {</span>
+<span class="lineNum">      94 </span><span class="lineCov">      11325 :       apply(std::make_index_sequence&lt;sizeof...(Args)&gt;{});</span>
+<span class="lineNum">      95 </span><span class="lineCov">      11325 :       evaluated_ = true;</span>
+<span class="lineNum">      96 </span>            :     }
+<span class="lineNum">      97 </span><span class="lineCov">      23683 :     return t_;</span>
+<a name="98"><span class="lineNum">      98 </span>            :   }</a>
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span><span class="lineCov">          1 :   Rt&amp; mutate() override {</span>
+<span class="lineNum">     101 </span><span class="lineCov">          1 :     ERROR(&quot;Cannot mutate a computed Deferred&quot;);</span>
+<span class="lineNum">     102 </span>            :     return t_;
+<a name="103"><span class="lineNum">     103 </span>            :   }</a>
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span><span class="lineCov">       1475 :   void update_args(std::decay_t&lt;Args&gt;... args) noexcept {</span>
+<span class="lineNum">     106 </span><span class="lineCov">       1475 :     evaluated_ = false;</span>
+<span class="lineNum">     107 </span><span class="lineCov">       1475 :     args_ = std::tuple&lt;std::decay_t&lt;Args&gt;...&gt;{std::move(args)...};</span>
+<span class="lineNum">     108 </span><span class="lineCov">       1475 :   }</span>
+<a name="109"><span class="lineNum">     109 </span>            : </a>
+<span class="lineNum">     110 </span>            :   // clang-tidy: no non-const references
+<span class="lineNum">     111 </span><span class="lineCov">         36 :   void pack_unpack_lazy_function(PUP::er&amp; p) noexcept override {  // NOLINT</span>
+<span class="lineNum">     112 </span><span class="lineCov">         36 :     p | evaluated_;</span>
+<span class="lineNum">     113 </span><span class="lineCov">         36 :     if (evaluated_) {</span>
+<span class="lineNum">     114 </span><span class="lineCov">         18 :       p | t_;</span>
+<span class="lineNum">     115 </span>            :     }
+<span class="lineNum">     116 </span><span class="lineCov">         36 :   }</span>
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            :  private:
+<span class="lineNum">     119 </span>            :   const Fp func_;
+<span class="lineNum">     120 </span>            :   std::tuple&lt;std::decay_t&lt;Args&gt;...&gt; args_;
+<span class="lineNum">     121 </span>            :   mutable bool evaluated_ = false;
+<span class="lineNum">     122 </span>            :   mutable Rt t_;
+<span class="lineNum">     123 </span>            : 
+<span class="lineNum">     124 </span>            :   template &lt;
+<span class="lineNum">     125 </span>            :       size_t... Is,
+<span class="lineNum">     126 </span>            :       Requires&lt;((void)sizeof...(Is),
+<span class="lineNum">     127 </span>            :                 tt::is_callable_v&lt;std::decay_t&lt;Fp&gt;,
+<a name="128"><span class="lineNum">     128 </span>            :                                   remove_deferred_t&lt;std::decay_t&lt;Args&gt;&gt;...&gt;)&gt; =</a>
+<span class="lineNum">     129 </span>            :           nullptr&gt;
+<span class="lineNum">     130 </span><span class="lineCov">      11313 :   void apply(std::integer_sequence&lt;size_t, Is...&gt; /*meta*/) const {</span>
+<span class="lineNum">     131 </span><span class="lineCov">      11313 :     t_ = std::move(func_(retrieve_from_deferred(std::get&lt;Is&gt;(args_))...));</span>
+<span class="lineNum">     132 </span><span class="lineCov">      11313 :   }</span>
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span>            :   template &lt;
+<span class="lineNum">     135 </span>            :       size_t... Is,
+<span class="lineNum">     136 </span>            :       Requires&lt;((void)sizeof...(Is),
+<span class="lineNum">     137 </span>            :                 tt::is_callable_v&lt;
+<a name="138"><span class="lineNum">     138 </span>            :                     std::decay_t&lt;Fp&gt;, gsl::not_null&lt;std::add_pointer_t&lt;Rt&gt;&gt;,</a>
+<span class="lineNum">     139 </span>            :                     remove_deferred_t&lt;std::decay_t&lt;Args&gt;&gt;...&gt;)&gt; = nullptr&gt;
+<span class="lineNum">     140 </span><span class="lineCov">         12 :   void apply(std::integer_sequence&lt;size_t, Is...&gt; /*meta*/) const {</span>
+<span class="lineNum">     141 </span><span class="lineCov">         12 :     func_(make_not_null(&amp;t_), retrieve_from_deferred(std::get&lt;Is&gt;(args_))...);</span>
+<span class="lineNum">     142 </span><span class="lineCov">         12 :   }</span>
+<span class="lineNum">     143 </span>            : };
+<span class="lineNum">     144 </span>            : }  // namespace Deferred_detail
+<span class="lineNum">     145 </span>            : 
+<span class="lineNum">     146 </span>            : /*!
+<span class="lineNum">     147 </span>            :  * \ingroup UtilitiesGroup
+<span class="lineNum">     148 </span>            :  * \brief Provides deferred or lazy evaluation of a function or function object,
+<span class="lineNum">     149 </span>            :  * as well as efficient storage of an object that is mutable.
+<span class="lineNum">     150 </span>            :  *
+<span class="lineNum">     151 </span>            :  * The class is similar to a std::shared_future that is able to hold and allow
+<span class="lineNum">     152 </span>            :  * mutation of objects. std::shared_future allows lazy evaluation of functions
+<span class="lineNum">     153 </span>            :  * but does not allow mutation of stored objects. Since mutation is only defined
+<span class="lineNum">     154 </span>            :  * for storage of objects, not for lazily evaluated functions, attempts to
+<span class="lineNum">     155 </span>            :  * mutate a lazily evaluated function's data is an error.
+<span class="lineNum">     156 </span>            :  *
+<span class="lineNum">     157 </span>            :  * To construct a Deferred for lazy evaluation use the make_deferred() function.
+<span class="lineNum">     158 </span>            :  *
+<span class="lineNum">     159 </span>            :  * \example
+<span class="lineNum">     160 </span>            :  * Construction of a Deferred with an object followed by mutation:
+<span class="lineNum">     161 </span>            :  * \snippet Test_Deferred.cpp deferred_with_update
+<span class="lineNum">     162 </span>            :  * @tparam Rt the type being stored
+<a name="163"><span class="lineNum">     163 </span>            :  */</a>
+<span class="lineNum">     164 </span>            : template &lt;typename Rt&gt;
+<a name="165"><span class="lineNum">     165 </span><span class="lineCov">     492308 : class Deferred {</span></a>
+<a name="166"><span class="lineNum">     166 </span>            :  public:</a>
+<span class="lineNum">     167 </span><span class="lineCov">      48905 :   Deferred() = default;</span>
+<span class="lineNum">     168 </span><span class="lineCov">       5326 :   explicit Deferred(Rt t)</span>
+<span class="lineNum">     169 </span>            :       : state_(boost::make_shared&lt;Deferred_detail::simple_assoc_state&lt;Rt&gt;&gt;(
+<a name="170"><span class="lineNum">     170 </span><span class="lineCov">       5326 :             std::move(t))) {}</span></a>
+<span class="lineNum">     171 </span>            : 
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">      41400 :   constexpr const Rt&amp; get() const { return state_-&gt;get(); }</span></a>
+<span class="lineNum">     173 </span>            : 
+<span class="lineNum">     174 </span><span class="lineCov">      17199 :   constexpr Rt&amp; mutate() { return state_-&gt;mutate(); }</span>
+<a name="175"><span class="lineNum">     175 </span>            : </a>
+<span class="lineNum">     176 </span>            :   // clang-tidy: no non-const references
+<span class="lineNum">     177 </span><span class="lineCov">         37 :   void pack_unpack_lazy_function(PUP::er&amp; p) noexcept {  // NOLINT</span>
+<span class="lineNum">     178 </span><span class="lineCov">         37 :     state_-&gt;pack_unpack_lazy_function(p);</span>
+<span class="lineNum">     179 </span><span class="lineCov">         36 :   }</span>
+<span class="lineNum">     180 </span>            : 
+<span class="lineNum">     181 </span>            :  private:
+<a name="182"><span class="lineNum">     182 </span>            :   boost::shared_ptr&lt;Deferred_detail::assoc_state&lt;Rt&gt;&gt; state_;</a>
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span><span class="lineCov">      21313 :   explicit Deferred(boost::shared_ptr&lt;Deferred_detail::assoc_state&lt;Rt&gt;&gt;&amp;&amp; state)</span>
+<span class="lineNum">     185 </span><span class="lineCov">      21313 :       : state_(std::move(state)) {}</span>
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span>            :   // clang-tidy: redundant declaration
+<span class="lineNum">     188 </span>            :   template &lt;typename Rt1, typename Fp, typename... Args&gt;
+<span class="lineNum">     189 </span>            :   friend Deferred&lt;Rt1&gt; make_deferred(Fp f, Args&amp;&amp;... args);  // NOLINT
+<span class="lineNum">     190 </span>            : 
+<span class="lineNum">     191 </span>            :   // clang-tidy: redundant declaration
+<span class="lineNum">     192 </span>            :   template &lt;typename Rt1, typename Fp, typename... Args&gt;
+<span class="lineNum">     193 </span>            :   friend void update_deferred_args(  // NOLINT
+<span class="lineNum">     194 </span>            :       gsl::not_null&lt;Deferred&lt;Rt1&gt;*&gt; deferred, Fp /*f used for type deduction*/,
+<span class="lineNum">     195 </span>            :       Args&amp;&amp;... args);
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span>            :   // clang-tidy: redundant declaration
+<span class="lineNum">     198 </span>            :   template &lt;typename Rt1, typename Fp, typename... Args&gt;
+<span class="lineNum">     199 </span>            :   friend void update_deferred_args(  // NOLINT
+<span class="lineNum">     200 </span>            :       gsl::not_null&lt;Deferred&lt;Rt1&gt;*&gt; deferred, Args&amp;&amp;... args);
+<span class="lineNum">     201 </span>            : };
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span>            : /*!
+<span class="lineNum">     204 </span>            :  * \ingroup UtilitiesGroup
+<span class="lineNum">     205 </span>            :  * \brief Create a deferred function call object
+<span class="lineNum">     206 </span>            :  *
+<span class="lineNum">     207 </span>            :  * If creating a Deferred with a function object the call operator of the
+<span class="lineNum">     208 </span>            :  * function object must be marked `const` currently. Since the function object
+<span class="lineNum">     209 </span>            :  * will only be evaluated once there currently seems to be no reason to allow
+<span class="lineNum">     210 </span>            :  * mutating call operators.
+<span class="lineNum">     211 </span>            :  *
+<span class="lineNum">     212 </span>            :  * \example
+<span class="lineNum">     213 </span>            :  * The examples below use the following functions:
+<span class="lineNum">     214 </span>            :  * \snippet Test_Deferred.cpp functions_used
+<span class="lineNum">     215 </span>            :  * To create a Deferred using a function object use:
+<span class="lineNum">     216 </span>            :  * \snippet Test_Deferred.cpp make_deferred_with_function_object
+<span class="lineNum">     217 </span>            :  * or using a regular function:
+<span class="lineNum">     218 </span>            :  * \snippet Test_Deferred.cpp make_deferred_with_function
+<span class="lineNum">     219 </span>            :  *
+<span class="lineNum">     220 </span>            :  * It is also possible to pass Deferred objects to a deferred function call:
+<span class="lineNum">     221 </span>            :  * \snippet Test_Deferred.cpp make_deferred_with_deferred_arg
+<span class="lineNum">     222 </span>            :  * in which case the first function will be evaluated just before the second
+<span class="lineNum">     223 </span>            :  * function is evaluated.
+<span class="lineNum">     224 </span>            :  *
+<span class="lineNum">     225 </span>            :  * In addition to functions that return by value, it is also possible to use
+<span class="lineNum">     226 </span>            :  * functions that return by reference. The first argument of the function must
+<span class="lineNum">     227 </span>            :  * then be a `gsl::not_null&lt;Rt*&gt;`, and can be mutated inside the function. The
+<span class="lineNum">     228 </span>            :  * mutating functions are primarily useful if `Rt` performs heap allocations and
+<span class="lineNum">     229 </span>            :  * is frequently recomputed in a manner where the heap allocation could be
+<span class="lineNum">     230 </span>            :  * avoided.
+<span class="lineNum">     231 </span>            :  *
+<span class="lineNum">     232 </span>            :  * \tparam Rt the type of the object returned by the function
+<span class="lineNum">     233 </span>            :  * @return Deferred object that will lazily evaluate the function
+<a name="234"><span class="lineNum">     234 </span>            :  */</a>
+<span class="lineNum">     235 </span>            : template &lt;typename Rt, typename Fp, typename... Args&gt;
+<span class="lineNum">     236 </span><span class="lineCov">      21313 : Deferred&lt;Rt&gt; make_deferred(Fp f, Args&amp;&amp;... args) {</span>
+<span class="lineNum">     237 </span>            :   return Deferred&lt;Rt&gt;(boost::make_shared&lt;Deferred_detail::deferred_assoc_state&lt;
+<span class="lineNum">     238 </span>            :                           Rt, std::decay_t&lt;Fp&gt;, std::decay_t&lt;Args&gt;...&gt;&gt;(
+<span class="lineNum">     239 </span><span class="lineCov">      21313 :       f, std::forward&lt;Args&gt;(args)...));</span>
+<span class="lineNum">     240 </span>            : }
+<span class="lineNum">     241 </span>            : 
+<span class="lineNum">     242 </span>            : // @{
+<span class="lineNum">     243 </span>            : /*!
+<span class="lineNum">     244 </span>            :  * \ingroup UtilitiesGroup
+<span class="lineNum">     245 </span>            :  * \brief Change the arguments to the Deferred function
+<span class="lineNum">     246 </span>            :  *
+<span class="lineNum">     247 </span>            :  * In order to make mutating Deferred functions really powerful, the `args` to
+<span class="lineNum">     248 </span>            :  * them must be updated without destructing the held `Rt` object. The type of
+<span class="lineNum">     249 </span>            :  * `Fp` (the invokable being lazily evaluated) as well as the types of the
+<span class="lineNum">     250 </span>            :  * `std::decay_t&lt;Args&gt;...` must match their respective types at the time of
+<span class="lineNum">     251 </span>            :  * creation of the Deferred object.
+<span class="lineNum">     252 </span>            :  *
+<span class="lineNum">     253 </span>            :  * \example
+<span class="lineNum">     254 </span>            :  * You can avoid specifying the type of the function held by the Deferred class
+<span class="lineNum">     255 </span>            :  * by passing the function as a second argument:
+<span class="lineNum">     256 </span>            :  * \snippet Test_Deferred.cpp update_args_of_deferred_deduced_fp
+<span class="lineNum">     257 </span>            :  *
+<span class="lineNum">     258 </span>            :  * You can also specify the type of the function held by the Deferred explicitly
+<span class="lineNum">     259 </span>            :  * as follows:
+<span class="lineNum">     260 </span>            :  * \snippet Test_Deferred.cpp update_args_of_deferred_specified_fp
+<a name="261"><span class="lineNum">     261 </span>            :  */</a>
+<span class="lineNum">     262 </span>            : template &lt;typename Rt, typename Fp, typename... Args&gt;
+<span class="lineNum">     263 </span><span class="lineCov">       1474 : void update_deferred_args(const gsl::not_null&lt;Deferred&lt;Rt&gt;*&gt; deferred,</span>
+<span class="lineNum">     264 </span>            :                           Fp /*f used for type deduction*/, Args&amp;&amp;... args) {
+<span class="lineNum">     265 </span><span class="lineCov">       1474 :   update_deferred_args&lt;Rt, Fp&gt;(deferred, std::forward&lt;Args&gt;(args)...);</span>
+<span class="lineNum">     266 </span><span class="lineCov">       1473 : }</span>
+<a name="267"><span class="lineNum">     267 </span>            : </a>
+<span class="lineNum">     268 </span>            : template &lt;typename Rt, typename Fp, typename... Args&gt;
+<span class="lineNum">     269 </span><span class="lineCov">       1478 : void update_deferred_args(const gsl::not_null&lt;Deferred&lt;Rt&gt;*&gt; deferred,</span>
+<span class="lineNum">     270 </span>            :                           Args&amp;&amp;... args) {
+<span class="lineNum">     271 </span><span class="lineCov">       1478 :   auto* ptr = dynamic_cast&lt;Deferred_detail::deferred_assoc_state&lt;</span>
+<span class="lineNum">     272 </span><span class="lineCov">       1478 :       Rt, std::decay_t&lt;Fp&gt;, std::decay_t&lt;Args&gt;...&gt;*&gt;(deferred-&gt;state_.get());</span>
+<span class="lineNum">     273 </span><span class="lineCov">       1478 :   if (ptr == nullptr) {</span>
+<span class="lineNum">     274 </span><span class="lineCov">          3 :     ERROR(&quot;Cannot cast the Deferred class to: &quot;s</span>
+<span class="lineNum">     275 </span>            :           &lt;&lt; (pretty_type::get_name&lt;Deferred_detail::deferred_assoc_state&lt;
+<span class="lineNum">     276 </span>            :                   Rt, std::decay_t&lt;Fp&gt;, std::decay_t&lt;Args&gt;...&gt;&gt;())
+<span class="lineNum">     277 </span>            :           &lt;&lt; &quot; which means you are either passing in args of incorrect &quot;
+<span class="lineNum">     278 </span>            :              &quot;types, that you are attempting to modify the args of a &quot;
+<span class="lineNum">     279 </span>            :              &quot;Deferred that is not a lazily evaluated function, or that the &quot;
+<span class="lineNum">     280 </span>            :              &quot;function type that the Deferred is expected to be holding is &quot;
+<span class="lineNum">     281 </span>            :              &quot;incorrect.&quot;s);
+<span class="lineNum">     282 </span>            :   }
+<span class="lineNum">     283 </span><span class="lineCov">       1475 :   ptr-&gt;update_args(std::forward&lt;Args&gt;(args)...);</span>
+<span class="lineNum">     284 </span><span class="lineCov">       1475 : }</span>
+<span class="lineNum">     285 </span>            : // @}
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

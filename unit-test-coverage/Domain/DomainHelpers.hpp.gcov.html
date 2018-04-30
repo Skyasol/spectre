@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - 7ecfd00f56917760beef377e49fab67d9a3967dc - Domain/DomainHelpers.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">SpECTRE Unit Test Code Coverage Report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">Domain</a> - DomainHelpers.hpp<span style="font-size: 80%;"> (source / <a href="DomainHelpers.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Commit:</td>
+             <td class="headerValue"><a target="_blank" href="https://github.com/sxs-collaboration/spectre/commit/7ecfd00f56917760beef377e49fab67d9a3967dc">7ecfd00f56917760beef377e49fab67d9a3967dc</a></td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2018-04-30 17:39:52</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryLo">50.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Distributed under the MIT License.</a>
+<span class="lineNum">       2 </span>            : // See LICENSE.txt for details.
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : /// \file
+<span class="lineNum">       5 </span>            : /// Defines DomainHelper functions
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : #pragma once
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : #include &lt;array&gt;
+<span class="lineNum">      10 </span>            : #include &lt;cstddef&gt;
+<span class="lineNum">      11 </span>            : #include &lt;memory&gt;
+<span class="lineNum">      12 </span>            : #include &lt;unordered_map&gt;
+<span class="lineNum">      13 </span>            : #include &lt;vector&gt;
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : #include &quot;Utilities/ConstantExpressions.hpp&quot;
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : /// \cond
+<span class="lineNum">      18 </span>            : namespace gsl {
+<span class="lineNum">      19 </span>            : template &lt;class T&gt;
+<span class="lineNum">      20 </span>            : class not_null;
+<span class="lineNum">      21 </span>            : }  // namespace gsl
+<span class="lineNum">      22 </span>            : template &lt;size_t VolumeDim&gt;
+<span class="lineNum">      23 </span>            : class BlockNeighbor;
+<span class="lineNum">      24 </span>            : template &lt;typename SourceFrame, typename TargetFrame, size_t Dim&gt;
+<span class="lineNum">      25 </span>            : class CoordinateMapBase;
+<span class="lineNum">      26 </span>            : template &lt;size_t VolumeDim&gt;
+<span class="lineNum">      27 </span>            : class Direction;
+<span class="lineNum">      28 </span>            : namespace Frame {
+<span class="lineNum">      29 </span>            : struct Logical;
+<span class="lineNum">      30 </span>            : }  // namespace Frame
+<span class="lineNum">      31 </span>            : /// \endcond
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : /// \ingroup ComputationalDomainGroup
+<span class="lineNum">      34 </span>            : /// Each member in `PairOfFaces` holds the global corner ids of a block face.
+<span class="lineNum">      35 </span>            : /// `PairOfFaces` is used in setting up periodic boundary conditions by
+<a name="36"><span class="lineNum">      36 </span>            : /// identifying the two faces with each other.</a>
+<span class="lineNum">      37 </span>            : /// \requires The pair of faces must belong to a single block.
+<span class="lineNum">      38 </span><span class="lineCov">        130 : struct PairOfFaces {</span>
+<span class="lineNum">      39 </span>            :   std::vector&lt;size_t&gt; first;
+<span class="lineNum">      40 </span>            :   std::vector&lt;size_t&gt; second;
+<span class="lineNum">      41 </span>            : };
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            : /// \ingroup ComputationalDomainGroup
+<span class="lineNum">      44 </span>            : /// Sets up the BlockNeighbors using the corner numbering scheme
+<span class="lineNum">      45 </span>            : /// to deduce the correct neighbors and orientations. Does not set
+<span class="lineNum">      46 </span>            : /// up periodic boundary conditions.
+<span class="lineNum">      47 </span>            : template &lt;size_t VolumeDim&gt;
+<span class="lineNum">      48 </span>            : void set_internal_boundaries(
+<span class="lineNum">      49 </span>            :     const std::vector&lt;std::array&lt;size_t, two_to_the(VolumeDim)&gt;&gt;&amp;
+<span class="lineNum">      50 </span>            :         corners_of_all_blocks,
+<span class="lineNum">      51 </span>            :     gsl::not_null&lt;std::vector&lt;
+<span class="lineNum">      52 </span>            :         std::unordered_map&lt;Direction&lt;VolumeDim&gt;, BlockNeighbor&lt;VolumeDim&gt;&gt;&gt;*&gt;
+<span class="lineNum">      53 </span>            :         neighbors_of_all_blocks);
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            : /// \ingroup ComputationalDomainGroup
+<span class="lineNum">      56 </span>            : /// Sets up additional BlockNeighbors corresponding to any
+<span class="lineNum">      57 </span>            : /// periodic boundary condtions provided by the user. These are
+<span class="lineNum">      58 </span>            : /// stored in identifications.
+<span class="lineNum">      59 </span>            : template &lt;size_t VolumeDim&gt;
+<span class="lineNum">      60 </span>            : void set_periodic_boundaries(
+<span class="lineNum">      61 </span>            :     const std::vector&lt;PairOfFaces&gt;&amp; identifications,
+<span class="lineNum">      62 </span>            :     const std::vector&lt;std::array&lt;size_t, two_to_the(VolumeDim)&gt;&gt;&amp;
+<span class="lineNum">      63 </span>            :         corners_of_all_blocks,
+<span class="lineNum">      64 </span>            :     gsl::not_null&lt;std::vector&lt;
+<span class="lineNum">      65 </span>            :         std::unordered_map&lt;Direction&lt;VolumeDim&gt;, BlockNeighbor&lt;VolumeDim&gt;&gt;&gt;*&gt;
+<span class="lineNum">      66 </span>            :         neighbors_of_all_blocks);
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            : /// \ingroup ComputationalDomainGroup
+<span class="lineNum">      69 </span>            : /// These are the six Wedge3Ds used in the DomainCreators for Sphere and Shell.
+<span class="lineNum">      70 </span>            : template &lt;typename TargetFrame&gt;
+<span class="lineNum">      71 </span>            : std::vector&lt;std::unique_ptr&lt;CoordinateMapBase&lt;Frame::Logical, TargetFrame, 3&gt;&gt;&gt;
+<span class="lineNum">      72 </span>            : wedge_coordinate_maps(double inner_radius, double outer_radius,
+<span class="lineNum">      73 </span>            :                       double inner_sphericity, double outer_sphericity,
+<span class="lineNum">      74 </span>            :                       bool use_equiangular_map) noexcept;
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

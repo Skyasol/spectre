@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - 7ecfd00f56917760beef377e49fab67d9a3967dc - Utilities/DereferenceWrapper.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title"> SpECTRE Documentation Coverage Report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">Utilities</a> - DereferenceWrapper.hpp</td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+             <td class="headerItem">Commit:</td>
+             <td class="headerValue"><a target="_blank" href="https://github.com/sxs-collaboration/spectre/commit/7ecfd00f56917760beef377e49fab67d9a3967dc">7ecfd00f56917760beef377e49fab67d9a3967dc</a></td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2018-04-30 17:40:54</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<span class="lineNum">       1 </span>            : // Distributed under the MIT License.
+<span class="lineNum">       2 </span>            : // See LICENSE.txt for details.
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : /// \file
+<span class="lineNum">       5 </span>            : /// Defines function dereference_wrapper
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : #pragma once
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : #include &lt;functional&gt;
+<span class="lineNum">      10 </span>            : #include &lt;utility&gt;
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : /// \ingroup UtilitiesGroup
+<span class="lineNum">      13 </span>            : /// \brief Returns the reference object held by a reference wrapper, if a
+<span class="lineNum">      14 </span>            : /// non-reference_wrapper type is passed in then the object is returned
+<span class="lineNum">      15 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      16 </span><span class="lineCov">          2 : decltype(auto) dereference_wrapper(T&amp;&amp; t) {</span>
+<span class="lineNum">      17 </span>            :   return std::forward&lt;T&gt;(t);
+<span class="lineNum">      18 </span>            : }
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : /// \cond
+<span class="lineNum">      21 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      22 </span>            : T&amp; dereference_wrapper(const std::reference_wrapper&lt;T&gt;&amp; t) {
+<span class="lineNum">      23 </span>            :   return t.get();
+<span class="lineNum">      24 </span>            : }
+<span class="lineNum">      25 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      26 </span>            : T&amp; dereference_wrapper(std::reference_wrapper&lt;T&gt;&amp; t) {
+<span class="lineNum">      27 </span>            :   return t.get();
+<span class="lineNum">      28 </span>            : }
+<span class="lineNum">      29 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      30 </span>            : T&amp;&amp; dereference_wrapper(const std::reference_wrapper&lt;T&gt;&amp;&amp; t) {
+<span class="lineNum">      31 </span>            :   return t.get();
+<span class="lineNum">      32 </span>            : }
+<span class="lineNum">      33 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      34 </span>            : T&amp;&amp; dereference_wrapper(std::reference_wrapper&lt;T&gt;&amp;&amp; t) {
+<span class="lineNum">      35 </span>            :   return t.get();
+<span class="lineNum">      36 </span>            : }
+<span class="lineNum">      37 </span>            : /// \endcond
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
