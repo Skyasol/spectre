@@ -158,4 +158,8 @@ Scalar<DataVector> area_element(
     const tnsr::i<DataVector, 3, Frame>& normal_one_form,
     const DataVector& radius,
     const tnsr::i<DataVector, 3, Frame>& r_hat) noexcept;
+
+template <typename Frame>
+double irreducible_mass(const scalar<DataVector> area_element,
+                        const Strahlkorper<Frame>& strahlkorper) noexcept;
 }  // namespace StrahlkorperGr

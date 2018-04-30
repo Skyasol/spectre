@@ -183,6 +183,12 @@ Scalar<DataVector> area_element(
            square(get(dot_product(cap_theta, cap_phi, spatial_metric))));
   return area_element;
 }
+
+template <typename Frame>
+double irreducible_mass(const scalar<DataVector> area_element,
+                        const Strahlkorper<Frame>& strahlkorper) noexcept {
+  return 0.0;
+}
 }  // namespace StrahlkorperGr
 
 template tnsr::i<DataVector, 3, Frame::Inertial>
@@ -232,3 +238,7 @@ template Scalar<DataVector> StrahlkorperGr::area_element<Frame::Inertial>(
     const tnsr::i<DataVector, 3, Frame::Inertial>& normal_one_form,
     const DataVector& radius,
     const tnsr::i<DataVector, 3, Frame::Inertial>& r_hat) noexcept;
+
+template double StrahlkorperGr::irreducible_mass<Frame::Inertial>(
+    const scalar<DataVector> area_element,
+    const Strahlkorper<Frame::Inertial>& strahlkorper) noexcept;
