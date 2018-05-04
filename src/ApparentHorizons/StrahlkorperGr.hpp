@@ -160,6 +160,6 @@ Scalar<DataVector> area_element(
     const tnsr::i<DataVector, 3, Frame>& r_hat) noexcept;
 
 template <typename Frame>
-double irreducible_mass(const scalar<DataVector> area_element,
+double irreducible_mass(const Scalar<DataVector> area_element,
                         const Strahlkorper<Frame>& strahlkorper) noexcept;
 }  // namespace StrahlkorperGr
